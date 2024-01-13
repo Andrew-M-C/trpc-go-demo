@@ -1,0 +1,23 @@
+syntax = "proto3";
+package demp.simplest;
+
+option go_package = "github.com/Andrew-M-C/trpc-go-demo/proto/simplest";
+
+// HelloRequest is hello request.
+message HelloRequest {
+  string greeting = 1;
+}
+
+// HelloResponse is hello response.
+message HelloResponse {
+  int32  err_code = 1;
+  string err_msg  = 2;
+  string response = 3;
+  int64  timestamp_msec = 4;
+}
+
+// HelloWorldService handles hello request and echo message.
+service HelloWorld {
+  // Hello says hello.
+  rpc Hello(HelloRequest) returns (HelloResponse);
+}
