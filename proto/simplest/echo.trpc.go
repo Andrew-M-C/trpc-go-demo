@@ -20,7 +20,7 @@ import (
 // HelloWorldService defines service.
 type HelloWorldService interface {
 	// Hello Hello says hello.
-	Hello(ctx context.Context, req *HelloRequest) (*HelloResponse, error)
+	Hello(ctx context.Context, req *HelloRequest) (*HelloResponse, error) // @alias=/demo/Hello
 }
 
 func HelloWorldService_Hello_Handler(svr interface{}, ctx context.Context, f server.FilterFunc) (interface{}, error) {
@@ -43,11 +43,15 @@ func HelloWorldService_Hello_Handler(svr interface{}, ctx context.Context, f ser
 
 // HelloWorldServer_ServiceDesc descriptor for server.RegisterService.
 var HelloWorldServer_ServiceDesc = server.ServiceDesc{
-	ServiceName: "demp.simplest.HelloWorld",
+	ServiceName: "demo.simplest.HelloWorld",
 	HandlerType: ((*HelloWorldService)(nil)),
 	Methods: []server.Method{
 		{
-			Name: "/demp.simplest.HelloWorld/Hello",
+			Name: "/demo/Hello",
+			Func: HelloWorldService_Hello_Handler,
+		},
+		{
+			Name: "/demo.simplest.HelloWorld/Hello",
 			Func: HelloWorldService_Hello_Handler,
 		},
 	},
@@ -78,7 +82,7 @@ func (s *UnimplementedHelloWorld) Hello(ctx context.Context, req *HelloRequest) 
 // HelloWorldClientProxy defines service client proxy
 type HelloWorldClientProxy interface {
 	// Hello Hello says hello.
-	Hello(ctx context.Context, req *HelloRequest, opts ...client.Option) (rsp *HelloResponse, err error)
+	Hello(ctx context.Context, req *HelloRequest, opts ...client.Option) (rsp *HelloResponse, err error) // @alias=/demo/Hello
 }
 
 type HelloWorldClientProxyImpl struct {
@@ -93,7 +97,7 @@ var NewHelloWorldClientProxy = func(opts ...client.Option) HelloWorldClientProxy
 func (c *HelloWorldClientProxyImpl) Hello(ctx context.Context, req *HelloRequest, opts ...client.Option) (*HelloResponse, error) {
 	ctx, msg := codec.WithCloneMessage(ctx)
 	defer codec.PutBackMessage(msg)
-	msg.WithClientRPCName("/demp.simplest.HelloWorld/Hello")
+	msg.WithClientRPCName("/demo/Hello")
 	msg.WithCalleeServiceName(HelloWorldServer_ServiceDesc.ServiceName)
 	msg.WithCalleeApp("")
 	msg.WithCalleeServer("")

@@ -37,13 +37,6 @@ cover:
 	go tool cover -html=tmp_coverage.out
 	if [ -f "tmp_coverage.out" ]; then rm tmp_coverage.out; fi
 
-.PHONY: convey
-convey:
-	sudo goconvey
-
-.PHONY: check
-check:	build test fmt lint
-
 # ======== protobuf 文件编译支持 ========
 
 # pb 编译规则
@@ -61,7 +54,6 @@ $(PB_DIR_TGTS):
 		find . -name '*.proto' | xargs -I DD trpc create -f --protofile=DD --protocol=trpc --rpconly --nogomod --alias --mock=false; \
 		ls *.trpc.go | xargs -I DD mockgen -source=DD -destination=mock/DD -package=mock ; \
 		find `pwd` -name '*.pb.go'; \
-		sed -i 's/,omitempty//g' *.go; \
 		go mod tidy; \
 	done
 
@@ -69,11 +61,11 @@ _PROTOC_PKG_URL=https://github.com/protocolbuffers/protobuf/releases/download/v2
 
 # installpb 用于在设备上安装 protobuf 编译器, 仅适用于 Linux 环境。
 # 如果环境 OK 那么不用执行
-.PHONY: installpb installtrpc
+.PHONY: installpb
 installpb:
 	wget $(_PROTOC_PKG_URL)
 	7z x $(notdir $(_PROTOC_PKG_URL)) -o/usr/local -y
-	rm -r $(notdir $(_PROTOC_PKG_URL))*
+	rm -f $(notdir $(_PROTOC_PKG_URL))*
 	chmod +x /usr/local/bin/protoc
 	@echo ---- $@ done ----
 	@protoc --version | xargs echo "Protobuf version:"
@@ -99,10 +91,11 @@ endif
 gogenerate: mockinstall $(GO_GENERATE_DIRS)
 	@go mod tidy
 
-.PHONY: mockinstall
-mockinstall:
+.PHONY: installmock
+installmock:
 	go install go.uber.org/mock/mockgen@latest
-	@mockgen -version | xargs echo mockgen version:
+	@echo ---- $@ done ----
+	@mockgen -version | xargs echo "mockgen version:"
 
 .PHONY: $(GO_GENERATE_DIRS)
 $(GO_GENERATE_DIRS):
