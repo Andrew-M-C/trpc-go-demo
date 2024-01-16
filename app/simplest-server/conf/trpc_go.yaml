@@ -1,6 +1,6 @@
 server:
   service:
-    - name: trpc.study.HelloWorld
+    - name: demo.simplest.HelloWorld
       nic: eth0
       # ip: 127.0.0.1
       port: 8000
