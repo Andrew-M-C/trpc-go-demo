@@ -3,8 +3,10 @@ package demo.httpauth;
 
 option go_package = "github.com/Andrew-M-C/trpc-go-demo/proto/httpauth";
 
+import "common/metadata.proto";
+
 message LoginRequest {
-    string trace_id      = 1;
+    common.Metadata metadata = 1;
     string username      = 2;
     string password_hash = 3;
 }

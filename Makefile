@@ -6,6 +6,7 @@ PB_FILES = $(shell find . -name '*.proto')
 PB_DIRS = $(sort $(dir $(PB_FILES)))
 PB_GO_FILES = $(shell find . -name '*.pb.go')
 PB_DIR_TGTS = $(addprefix _PB, $(PB_DIRS))
+WORK_DIR = $(shell pwd)
 
 .PHONY: all
 all: $(SERVERS)
@@ -51,10 +52,10 @@ $(PB_DIR_TGTS):
 		cd $$dir; rm -rf mock; \
 		export PATH=$(PATH); \
 		rm -f *.pb.go; rm -f *.trpc.go; \
-		find . -name '*.proto' | xargs -I DD trpc create -f --protofile=DD --protocol=trpc --rpconly --nogomod --alias --mock=false; \
+		find . -name '*.proto' | xargs -I DD \
+			trpc create -f --protofile=DD --protocol=trpc --rpconly --nogomod --alias --mock=false --protodir=$(WORK_DIR)/proto; \
 		ls *.trpc.go | xargs -I DD mockgen -source=DD -destination=mock/DD -package=mock ; \
 		find `pwd` -name '*.pb.go'; \
-		go mod tidy; \
 	done
 
 _PROTOC_PKG_URL=https://github.com/protocolbuffers/protobuf/releases/download/v25.1/protoc-25.1-linux-x86_64.zip
