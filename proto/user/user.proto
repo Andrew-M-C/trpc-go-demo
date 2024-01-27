@@ -1,26 +1,26 @@
 syntax = "proto3";
-package demo.httpauth;
+package demo.account;
 
 option go_package = "github.com/Andrew-M-C/trpc-go-demo/proto/user";
 
-// Head 通用请求头
-message Head {
-    string trace_id = 1;
+import "common/metadata.proto";
+
+message GetAccountByUserNameRequest {
+    common.Metadata metadata = 1;
+    string username = 2;
 }
 
-message AuthenticateRequest {
-    Head   head          = 1;
-    string username      = 2;
-    string password_hash = 3;
-}
-
-message AuthenticateResponse {
+message GetAccountByUserNameResponse {
     int32  err_code = 1;
     string err_msg  = 2;
+
     string user_id  = 3;
+    string username = 4;
+    string password_hash = 5;
+    int64  create_ts_sec = 6;
 }
 
-// User 提供用户身份服务
+// User 提供用户信息服务
 service User {
-    rpc Authenticate(AuthenticateRequest) returns (AuthenticateResponse);
+    rpc GetAccountByUserName(GetAccountByUserNameRequest) returns (GetAccountByUserNameResponse);
 }

@@ -41,19 +41,19 @@ func (m *MockUserService) EXPECT() *MockUserServiceMockRecorder {
 	return m.recorder
 }
 
-// Authenticate mocks base method.
-func (m *MockUserService) Authenticate(ctx context.Context, req *user.AuthenticateRequest) (*user.AuthenticateResponse, error) {
+// GetAccountByUserName mocks base method.
+func (m *MockUserService) GetAccountByUserName(ctx context.Context, req *user.GetAccountByUserNameRequest) (*user.GetAccountByUserNameResponse, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Authenticate", ctx, req)
-	ret0, _ := ret[0].(*user.AuthenticateResponse)
+	ret := m.ctrl.Call(m, "GetAccountByUserName", ctx, req)
+	ret0, _ := ret[0].(*user.GetAccountByUserNameResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
-// Authenticate indicates an expected call of Authenticate.
-func (mr *MockUserServiceMockRecorder) Authenticate(ctx, req any) *gomock.Call {
+// GetAccountByUserName indicates an expected call of GetAccountByUserName.
+func (mr *MockUserServiceMockRecorder) GetAccountByUserName(ctx, req any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Authenticate", reflect.TypeOf((*MockUserService)(nil).Authenticate), ctx, req)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetAccountByUserName", reflect.TypeOf((*MockUserService)(nil).GetAccountByUserName), ctx, req)
 }
 
 // MockUserClientProxy is a mock of UserClientProxy interface.
@@ -79,22 +79,22 @@ func (m *MockUserClientProxy) EXPECT() *MockUserClientProxyMockRecorder {
 	return m.recorder
 }
 
-// Authenticate mocks base method.
-func (m *MockUserClientProxy) Authenticate(ctx context.Context, req *user.AuthenticateRequest, opts ...client.Option) (*user.AuthenticateResponse, error) {
+// GetAccountByUserName mocks base method.
+func (m *MockUserClientProxy) GetAccountByUserName(ctx context.Context, req *user.GetAccountByUserNameRequest, opts ...client.Option) (*user.GetAccountByUserNameResponse, error) {
 	m.ctrl.T.Helper()
 	varargs := []any{ctx, req}
 	for _, a := range opts {
 		varargs = append(varargs, a)
 	}
-	ret := m.ctrl.Call(m, "Authenticate", varargs...)
-	ret0, _ := ret[0].(*user.AuthenticateResponse)
+	ret := m.ctrl.Call(m, "GetAccountByUserName", varargs...)
+	ret0, _ := ret[0].(*user.GetAccountByUserNameResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
-// Authenticate indicates an expected call of Authenticate.
-func (mr *MockUserClientProxyMockRecorder) Authenticate(ctx, req any, opts ...any) *gomock.Call {
+// GetAccountByUserName indicates an expected call of GetAccountByUserName.
+func (mr *MockUserClientProxyMockRecorder) GetAccountByUserName(ctx, req any, opts ...any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	varargs := append([]any{ctx, req}, opts...)
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Authenticate", reflect.TypeOf((*MockUserClientProxy)(nil).Authenticate), varargs...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetAccountByUserName", reflect.TypeOf((*MockUserClientProxy)(nil).GetAccountByUserName), varargs...)
 }

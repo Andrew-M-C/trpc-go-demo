@@ -19,17 +19,17 @@ import (
 
 // UserService defines service.
 type UserService interface {
-	Authenticate(ctx context.Context, req *AuthenticateRequest) (*AuthenticateResponse, error)
+	GetAccountByUserName(ctx context.Context, req *GetAccountByUserNameRequest) (*GetAccountByUserNameResponse, error)
 }
 
-func UserService_Authenticate_Handler(svr interface{}, ctx context.Context, f server.FilterFunc) (interface{}, error) {
-	req := &AuthenticateRequest{}
+func UserService_GetAccountByUserName_Handler(svr interface{}, ctx context.Context, f server.FilterFunc) (interface{}, error) {
+	req := &GetAccountByUserNameRequest{}
 	filters, err := f(req)
 	if err != nil {
 		return nil, err
 	}
 	handleFunc := func(ctx context.Context, reqbody interface{}) (interface{}, error) {
-		return svr.(UserService).Authenticate(ctx, reqbody.(*AuthenticateRequest))
+		return svr.(UserService).GetAccountByUserName(ctx, reqbody.(*GetAccountByUserNameRequest))
 	}
 
 	var rsp interface{}
@@ -42,12 +42,12 @@ func UserService_Authenticate_Handler(svr interface{}, ctx context.Context, f se
 
 // UserServer_ServiceDesc descriptor for server.RegisterService.
 var UserServer_ServiceDesc = server.ServiceDesc{
-	ServiceName: "demo.httpauth.User",
+	ServiceName: "demo.account.User",
 	HandlerType: ((*UserService)(nil)),
 	Methods: []server.Method{
 		{
-			Name: "/demo.httpauth.User/Authenticate",
-			Func: UserService_Authenticate_Handler,
+			Name: "/demo.account.User/GetAccountByUserName",
+			Func: UserService_GetAccountByUserName_Handler,
 		},
 	},
 }
@@ -63,8 +63,8 @@ func RegisterUserService(s server.Service, svr UserService) {
 
 type UnimplementedUser struct{}
 
-func (s *UnimplementedUser) Authenticate(ctx context.Context, req *AuthenticateRequest) (*AuthenticateResponse, error) {
-	return nil, errors.New("rpc Authenticate of service User is not implemented")
+func (s *UnimplementedUser) GetAccountByUserName(ctx context.Context, req *GetAccountByUserNameRequest) (*GetAccountByUserNameResponse, error) {
+	return nil, errors.New("rpc GetAccountByUserName of service User is not implemented")
 }
 
 // END --------------------------------- Default Unimplemented Server Service --------------------------------- END
@@ -75,7 +75,7 @@ func (s *UnimplementedUser) Authenticate(ctx context.Context, req *AuthenticateR
 
 // UserClientProxy defines service client proxy
 type UserClientProxy interface {
-	Authenticate(ctx context.Context, req *AuthenticateRequest, opts ...client.Option) (rsp *AuthenticateResponse, err error)
+	GetAccountByUserName(ctx context.Context, req *GetAccountByUserNameRequest, opts ...client.Option) (rsp *GetAccountByUserNameResponse, err error)
 }
 
 type UserClientProxyImpl struct {
@@ -87,20 +87,20 @@ var NewUserClientProxy = func(opts ...client.Option) UserClientProxy {
 	return &UserClientProxyImpl{client: client.DefaultClient, opts: opts}
 }
 
-func (c *UserClientProxyImpl) Authenticate(ctx context.Context, req *AuthenticateRequest, opts ...client.Option) (*AuthenticateResponse, error) {
+func (c *UserClientProxyImpl) GetAccountByUserName(ctx context.Context, req *GetAccountByUserNameRequest, opts ...client.Option) (*GetAccountByUserNameResponse, error) {
 	ctx, msg := codec.WithCloneMessage(ctx)
 	defer codec.PutBackMessage(msg)
-	msg.WithClientRPCName("/demo.httpauth.User/Authenticate")
+	msg.WithClientRPCName("/demo.account.User/GetAccountByUserName")
 	msg.WithCalleeServiceName(UserServer_ServiceDesc.ServiceName)
 	msg.WithCalleeApp("")
 	msg.WithCalleeServer("")
 	msg.WithCalleeService("User")
-	msg.WithCalleeMethod("Authenticate")
+	msg.WithCalleeMethod("GetAccountByUserName")
 	msg.WithSerializationType(codec.SerializationTypePB)
 	callopts := make([]client.Option, 0, len(c.opts)+len(opts))
 	callopts = append(callopts, c.opts...)
 	callopts = append(callopts, opts...)
-	rsp := &AuthenticateResponse{}
+	rsp := &GetAccountByUserNameResponse{}
 	if err := c.client.Invoke(ctx, req, rsp, callopts...); err != nil {
 		return nil, err
 	}
