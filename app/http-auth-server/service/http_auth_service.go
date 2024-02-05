@@ -46,9 +46,12 @@ func (authServiceImpl) Login(
 	}
 
 	// 密码检查
-	if uRsp.GetPasswordHash() != req.PasswordHash {
+	if p := uRsp.GetPasswordHash(); p != req.PasswordHash {
+		log.DebugContextf(ctx, "请求的密码为: %s, 实际密码为 %s", req.PasswordHash, p)
 		rsp.ErrCode, rsp.ErrMsg = 404, "密码错误"
 		return
 	}
+
+	rsp.ErrCode, rsp.ErrMsg = 0, "success"
 	return
 }

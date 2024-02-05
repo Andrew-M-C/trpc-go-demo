@@ -14,7 +14,7 @@ type userAccountItem struct {
 
 // TableName 返回表名
 func (userAccountItem) TableName() string {
-	return "t_user_account"
+	return "t_trpc_demo_user_account"
 }
 
 func (u userAccountItem) toEntity() *entity.Account {

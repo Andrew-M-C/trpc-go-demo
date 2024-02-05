@@ -34,7 +34,7 @@ func (r *UserAccountRepository) QueryAccountByUsername(
 	}
 
 	var res []userAccountItem
-	query := fmt.Sprintf("SELECT * FROM %s WHERE username = ? LIMIT 1", userAccountItem{}.TableName())
+	query := fmt.Sprintf("SELECT * FROM %s WHERE username = ? AND delete_at_ms = 0 LIMIT 1", userAccountItem{}.TableName())
 	if err := db.Select(ctx, &res, query, username); err != nil {
 		return nil, fmt.Errorf("查询DB失败 (%w)", err)
 	}
