@@ -58,7 +58,7 @@ $(PB_DIR_TGTS):
 		find `pwd` -name '*.pb.go'; \
 	done
 
-_PROTOC_PKG_URL=https://github.com/protocolbuffers/protobuf/releases/download/v25.1/protoc-25.1-linux-x86_64.zip
+_PROTOC_PKG_URL=https://github.com/protocolbuffers/protobuf/releases/download/v25.1/protoc-25.2-linux-x86_64.zip
 
 # installpb 用于在设备上安装 protobuf 编译器, 仅适用于 Linux 环境。
 # 如果环境 OK 那么不用执行

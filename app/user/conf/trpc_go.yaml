@@ -1,0 +1,15 @@
+server:
+  service:
+    - name: demo.account.User
+      ip: 127.0.0.1
+      # nic: eth0
+      port: 8002
+      network: tcp
+      protocol: trpc
+      timeout: 1800
+
+client:
+  service:
+    - name: db.mysql.userAccount
+      target: ip://root:123456@tcp(host.docker.internal:3306)/db_test?charset=utf8mb4&parseTime=true&loc=Local&timeout=1s
+      timeout: 1000
