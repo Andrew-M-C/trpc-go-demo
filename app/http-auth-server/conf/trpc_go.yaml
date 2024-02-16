@@ -1,4 +1,5 @@
 server:
+  timeout: 2000
   service:
     - name: demo.httpauth.Auth
       nic: eth0
@@ -8,6 +9,7 @@ server:
       timeout: 1800
 
 client:
+  timeout: 3000
   service:
     - name: demo.account.User
       target: ip://127.0.0.1:8002

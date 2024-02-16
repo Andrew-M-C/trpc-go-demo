@@ -1,6 +1,6 @@
 module github.com/Andrew-M-C/trpc-go-demo
 
-go 1.20
+go 1.21
 
 require (
 	go.uber.org/mock v0.4.0
@@ -15,7 +15,6 @@ require (
 	github.com/fsnotify/fsnotify v1.4.9 // indirect
 	github.com/go-playground/form/v4 v4.2.0 // indirect
 	github.com/go-sql-driver/mysql v1.6.0 // indirect
-	github.com/golang/mock v1.6.0 // indirect
 	github.com/golang/snappy v0.0.3 // indirect
 	github.com/google/flatbuffers v2.0.0+incompatible // indirect
 	github.com/hashicorp/errwrap v1.0.0 // indirect
