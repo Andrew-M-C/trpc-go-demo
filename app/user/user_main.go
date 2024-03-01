@@ -3,12 +3,15 @@ package main
 import (
 	"github.com/Andrew-M-C/trpc-go-demo/app/user/repo"
 	"github.com/Andrew-M-C/trpc-go-demo/app/user/service"
-	"trpc.group/trpc-go/trpc-go"
+	"github.com/Andrew-M-C/trpc-go-utils/tracelog"
+	trpc "trpc.group/trpc-go/trpc-go"
 	"trpc.group/trpc-go/trpc-go/log"
 )
 
 func main() {
+	tracelog.RegisterTraceLogFilter()
 	s := trpc.NewServer()
+
 	r, err := initializeRepo()
 	if err != nil {
 		log.Fatalf("初始化 repo 失败: %v", err)

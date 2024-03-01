@@ -1,4 +1,6 @@
 server:
+  filter:
+    - tracelog
   timeout: 2000
   service:
     - name: demo.httpauth.Auth
@@ -9,6 +11,8 @@ server:
       timeout: 1800
 
 client:
+  filter:
+    - tracelog
   timeout: 3000
   service:
     - name: demo.account.User

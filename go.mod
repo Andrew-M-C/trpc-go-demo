@@ -3,6 +3,7 @@ module github.com/Andrew-M-C/trpc-go-demo
 go 1.21
 
 require (
+	github.com/Andrew-M-C/trpc-go-utils v0.0.0-20240216081006-e66745ff2b80
 	go.uber.org/mock v0.4.0
 	google.golang.org/protobuf v1.32.0
 	trpc.group/trpc-go/trpc-database/mysql v1.0.0
@@ -10,8 +11,11 @@ require (
 )
 
 require (
+	github.com/Andrew-M-C/go.jsonvalue v1.3.6 // indirect
+	github.com/Andrew-M-C/go.util v0.0.0-20231130030813-ea67c77233dc // indirect
 	github.com/BurntSushi/toml v0.3.1 // indirect
 	github.com/andybalholm/brotli v1.0.4 // indirect
+	github.com/bwmarrin/snowflake v0.3.0 // indirect
 	github.com/fsnotify/fsnotify v1.4.9 // indirect
 	github.com/go-playground/form/v4 v4.2.0 // indirect
 	github.com/go-sql-driver/mysql v1.6.0 // indirect
@@ -28,16 +32,18 @@ require (
 	github.com/modern-go/reflect2 v1.0.2 // indirect
 	github.com/panjf2000/ants/v2 v2.4.6 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
+	github.com/shopspring/decimal v1.3.1 // indirect
 	github.com/spf13/cast v1.3.1 // indirect
 	github.com/valyala/bytebufferpool v1.0.0 // indirect
 	github.com/valyala/fasthttp v1.43.0 // indirect
-	go.uber.org/atomic v1.9.0 // indirect
-	go.uber.org/automaxprocs v1.3.0 // indirect
+	go.uber.org/atomic v1.11.0 // indirect
+	go.uber.org/automaxprocs v1.5.3 // indirect
 	go.uber.org/multierr v1.6.0 // indirect
 	go.uber.org/zap v1.24.0 // indirect
+	golang.org/x/exp v0.0.0-20231127185646-65229373498e // indirect
 	golang.org/x/net v0.17.0 // indirect
 	golang.org/x/sync v0.1.0 // indirect
-	golang.org/x/sys v0.13.0 // indirect
+	golang.org/x/sys v0.14.0 // indirect
 	golang.org/x/text v0.13.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 	trpc.group/trpc-go/tnet v1.0.0 // indirect
