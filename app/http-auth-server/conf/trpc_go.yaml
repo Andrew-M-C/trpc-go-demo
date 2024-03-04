@@ -4,11 +4,37 @@ server:
   timeout: 2000
   service:
     - name: demo.httpauth.Auth
-      nic: eth0
+      ip: 127.0.0.1
+      # nic: eth0
       port: 8001
       network: tcp
       protocol: http
       timeout: 1800
+
+plugins:
+  log:
+    default:
+      - writer: console
+        level: fatal
+        formatter: console
+      - writer: file
+        level: debug
+        formatter: json
+        formatter_config:
+          time_fmt: 2006-01-02 15:04:05
+          time_key: time
+          level_key: level
+          name_key: none
+          caller_key: caller
+          message_key: message
+          stacktrace_key: stack_trace
+        writer_config:
+          log_path: ./log/
+          filename: trpc.log
+          write_mode: 2
+          roll_type: size
+          max_size: 1000
+          max_backups: 10
 
 client:
   filter:
