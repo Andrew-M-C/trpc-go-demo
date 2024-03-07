@@ -3,7 +3,7 @@ module github.com/Andrew-M-C/trpc-go-demo
 go 1.21
 
 require (
-	github.com/Andrew-M-C/trpc-go-utils v0.0.0-20240216081006-e66745ff2b80
+	github.com/Andrew-M-C/trpc-go-utils v0.0.0-20240307025308-f23ef6a90212
 	go.uber.org/mock v0.4.0
 	google.golang.org/protobuf v1.32.0
 	trpc.group/trpc-go/trpc-database/mysql v1.0.0
@@ -12,7 +12,11 @@ require (
 
 require (
 	github.com/Andrew-M-C/go.jsonvalue v1.3.6 // indirect
-	github.com/Andrew-M-C/go.util v0.0.0-20231130030813-ea67c77233dc // indirect
+	github.com/Andrew-M-C/go.util/ids v0.0.0-20240305040057-34fd9d5dbbca // indirect
+	github.com/Andrew-M-C/go.util/runtime v0.0.0-20240305040057-34fd9d5dbbca // indirect
+	github.com/Andrew-M-C/go.util/slice v0.0.0-20240221044053-8b90aa4683c0 // indirect
+	github.com/Andrew-M-C/go.util/sync v0.0.0-20240305040057-34fd9d5dbbca // indirect
+	github.com/Andrew-M-C/go.util/time v0.0.0-20240221044053-8b90aa4683c0 // indirect
 	github.com/BurntSushi/toml v0.3.1 // indirect
 	github.com/andybalholm/brotli v1.0.4 // indirect
 	github.com/bwmarrin/snowflake v0.3.0 // indirect
@@ -31,6 +35,7 @@ require (
 	github.com/modern-go/concurrent v0.0.0-20180228061459-e0a39a4cb421 // indirect
 	github.com/modern-go/reflect2 v1.0.2 // indirect
 	github.com/panjf2000/ants/v2 v2.4.6 // indirect
+	github.com/petermattis/goid v0.0.0-20231207134359-e60b3f734c67 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/shopspring/decimal v1.3.1 // indirect
 	github.com/spf13/cast v1.3.1 // indirect
@@ -40,11 +45,11 @@ require (
 	go.uber.org/automaxprocs v1.5.3 // indirect
 	go.uber.org/multierr v1.6.0 // indirect
 	go.uber.org/zap v1.24.0 // indirect
-	golang.org/x/exp v0.0.0-20231127185646-65229373498e // indirect
+	golang.org/x/exp v0.0.0-20240222234643-814bf88cf225 // indirect
 	golang.org/x/net v0.17.0 // indirect
 	golang.org/x/sync v0.1.0 // indirect
-	golang.org/x/sys v0.14.0 // indirect
-	golang.org/x/text v0.13.0 // indirect
+	golang.org/x/sys v0.17.0 // indirect
+	golang.org/x/text v0.14.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 	trpc.group/trpc-go/tnet v1.0.0 // indirect
 	trpc.group/trpc-go/trpc-selector-dsn v1.0.0 // indirect

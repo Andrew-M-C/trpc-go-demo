@@ -15,7 +15,7 @@ plugins:
   log:
     default:
       - writer: console
-        level: fatal
+        level: debug
         formatter: console
       - writer: file
         level: debug
@@ -35,6 +35,9 @@ plugins:
           roll_type: size
           max_size: 1000
           max_backups: 10
+  metrics:
+    log:
+      name: demo.httpauth.Auth
 
 client:
   filter:
