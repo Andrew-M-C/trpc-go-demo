@@ -10,6 +10,8 @@ server:
       network: tcp
       protocol: http
       timeout: 1800
+      filter:
+        - err_to_code
 
 plugins:
   log:
@@ -49,3 +51,5 @@ client:
       network: tcp
       protocol: trpc
       timeout: 1000
+      filter:
+        - err_to_code

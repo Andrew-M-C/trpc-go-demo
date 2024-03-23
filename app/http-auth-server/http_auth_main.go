@@ -2,6 +2,7 @@ package main
 
 import (
 	"github.com/Andrew-M-C/trpc-go-demo/app/http-auth-server/service"
+	"github.com/Andrew-M-C/trpc-go-utils/errs"
 	metricslog "github.com/Andrew-M-C/trpc-go-utils/metrics/log"
 	"github.com/Andrew-M-C/trpc-go-utils/tracelog"
 	trpc "trpc.group/trpc-go/trpc-go"
@@ -9,6 +10,7 @@ import (
 )
 
 func main() {
+	errs.RegisterErrToCodeFilter()
 	tracelog.RegisterTraceLogFilter()
 	metricslog.RegisterMetricsMySQL()
 	s := trpc.NewServer()

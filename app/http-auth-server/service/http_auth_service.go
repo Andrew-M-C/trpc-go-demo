@@ -3,11 +3,12 @@ package service
 
 import (
 	"context"
-	"fmt"
 	"time"
 
+	errentity "github.com/Andrew-M-C/trpc-go-demo/entity/errs"
 	"github.com/Andrew-M-C/trpc-go-demo/proto/httpauth"
 	"github.com/Andrew-M-C/trpc-go-demo/proto/user"
+	"github.com/Andrew-M-C/trpc-go-utils/tracelog"
 	"trpc.group/trpc-go/trpc-go/log"
 	"trpc.group/trpc-go/trpc-go/metrics"
 	"trpc.group/trpc-go/trpc-go/server"
@@ -31,12 +32,10 @@ func newAuthServiceImpl() authServiceImpl {
 // Login 实现 http 登录
 func (authServiceImpl) Login(
 	ctx context.Context, req *httpauth.LoginRequest,
-) (rsp *httpauth.LoginResponse, _ error) {
-	rsp = &httpauth.LoginResponse{}
-
+) (rsp *httpauth.LoginResponse, err error) {
 	defer func(start time.Time) {
 		metrics.IncrCounter("demo.auth.Login.cnt", 1)
-		if rsp.ErrCode == 0 {
+		if err == nil {
 			metrics.IncrCounter("demo.auth.Login.succ", 1)
 		} else {
 			metrics.IncrCounter("demo.auth.Login.fail", 1)
@@ -49,23 +48,13 @@ func (authServiceImpl) Login(
 		Username: req.GetUsername(),
 	}
 	uRsp, err := user.NewUserClientProxy().GetAccountByUserName(ctx, uReq)
+	log.DebugContextf(ctx, "rsp: '%v'", tracelog.ToJSON(uRsp))
 	if err != nil {
-		rsp.ErrCode, rsp.ErrMsg = -1, fmt.Sprintf("调用 user 服务失败: %v", err)
-		return
+		log.ErrorContextf(ctx, "user 服务返回错误: %v", err)
+		return nil, err
 	}
-	// 用户存在与否
-	if uRsp.GetErrCode() != 0 {
-		rsp.ErrCode, rsp.ErrMsg = uRsp.GetErrCode(), uRsp.GetErrMsg()
-		return
+	if req.GetPasswordHash() != uRsp.GetPasswordHash() {
+		return nil, errentity.PasswordError
 	}
-
-	// 密码检查
-	if p := uRsp.GetPasswordHash(); p != req.PasswordHash {
-		log.DebugContextf(ctx, "请求的密码为: %s, 实际密码为 %s", req.PasswordHash, p)
-		rsp.ErrCode, rsp.ErrMsg = 404, "密码错误"
-		return
-	}
-
-	rsp.ErrCode, rsp.ErrMsg = 0, "success"
-	return
+	return &httpauth.LoginResponse{}, nil
 }

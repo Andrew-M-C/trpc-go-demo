@@ -2,8 +2,10 @@ module github.com/Andrew-M-C/trpc-go-demo
 
 go 1.21
 
+replace github.com/Andrew-M-C/trpc-go-utils => ../trpc-go-utils
+
 require (
-	github.com/Andrew-M-C/trpc-go-utils v0.0.0-20240307025308-f23ef6a90212
+	github.com/Andrew-M-C/trpc-go-utils v0.0.0-20240323075659-02b72cc780d1
 	go.uber.org/mock v0.4.0
 	google.golang.org/protobuf v1.32.0
 	trpc.group/trpc-go/trpc-database/mysql v1.0.0
@@ -12,6 +14,7 @@ require (
 
 require (
 	github.com/Andrew-M-C/go.jsonvalue v1.3.6 // indirect
+	github.com/Andrew-M-C/go.util/errors v0.0.0-20240305040057-34fd9d5dbbca // indirect
 	github.com/Andrew-M-C/go.util/ids v0.0.0-20240305040057-34fd9d5dbbca // indirect
 	github.com/Andrew-M-C/go.util/runtime v0.0.0-20240305040057-34fd9d5dbbca // indirect
 	github.com/Andrew-M-C/go.util/slice v0.0.0-20240221044053-8b90aa4683c0 // indirect

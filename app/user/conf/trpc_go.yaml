@@ -14,7 +14,7 @@ plugins:
   log:
     default:
       - writer: console
-        level: fatal
+        level: debug
         formatter: console
       - writer: file
         level: debug
