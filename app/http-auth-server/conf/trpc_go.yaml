@@ -1,6 +1,9 @@
 server:
   filter:
+    - elapse
+    - count
     - tracelog
+    - err_to_code
   timeout: 2000
   service:
     - name: demo.httpauth.Auth
@@ -10,8 +13,7 @@ server:
       network: tcp
       protocol: http
       timeout: 1800
-      filter:
-        - err_to_code
+
 
 plugins:
   log:
@@ -37,9 +39,18 @@ plugins:
           roll_type: size
           max_size: 1000
           max_backups: 10
+
   metrics:
     log:
       name: demo.httpauth.Auth
+
+  config:
+    etcd:
+      endpoints:
+        - host.docker.internal:21379
+        - host.docker.internal:22379
+        - host.docker.internal:23379
+      dialtimeout: 5s
 
 client:
   filter:

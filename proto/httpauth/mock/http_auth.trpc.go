@@ -56,6 +56,21 @@ func (mr *MockAuthServiceMockRecorder) Login(ctx, req any) *gomock.Call {
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Login", reflect.TypeOf((*MockAuthService)(nil).Login), ctx, req)
 }
 
+// Synchronize mocks base method.
+func (m *MockAuthService) Synchronize(ctx context.Context, req *httpauth.SynchronizeRequest) (*httpauth.SynchronizeResponse, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Synchronize", ctx, req)
+	ret0, _ := ret[0].(*httpauth.SynchronizeResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// Synchronize indicates an expected call of Synchronize.
+func (mr *MockAuthServiceMockRecorder) Synchronize(ctx, req any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Synchronize", reflect.TypeOf((*MockAuthService)(nil).Synchronize), ctx, req)
+}
+
 // MockAuthClientProxy is a mock of AuthClientProxy interface.
 type MockAuthClientProxy struct {
 	ctrl     *gomock.Controller
@@ -97,4 +112,24 @@ func (mr *MockAuthClientProxyMockRecorder) Login(ctx, req any, opts ...any) *gom
 	mr.mock.ctrl.T.Helper()
 	varargs := append([]any{ctx, req}, opts...)
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Login", reflect.TypeOf((*MockAuthClientProxy)(nil).Login), varargs...)
+}
+
+// Synchronize mocks base method.
+func (m *MockAuthClientProxy) Synchronize(ctx context.Context, req *httpauth.SynchronizeRequest, opts ...client.Option) (*httpauth.SynchronizeResponse, error) {
+	m.ctrl.T.Helper()
+	varargs := []any{ctx, req}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "Synchronize", varargs...)
+	ret0, _ := ret[0].(*httpauth.SynchronizeResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// Synchronize indicates an expected call of Synchronize.
+func (mr *MockAuthClientProxyMockRecorder) Synchronize(ctx, req any, opts ...any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]any{ctx, req}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Synchronize", reflect.TypeOf((*MockAuthClientProxy)(nil).Synchronize), varargs...)
 }
