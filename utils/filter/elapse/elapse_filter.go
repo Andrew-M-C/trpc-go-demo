@@ -30,7 +30,7 @@ func serverFilter(ctx context.Context, req any, next filter.ServerHandleFunc) (a
 
 	method := internal.GetCallee(ctx)
 	key := fmt.Sprintf("%s.server.%s.usec", mPrefix, method)
-	log.DebugContextf(ctx, "done server %s, ela %v", ela)
+	log.DebugContextf(ctx, "done server %s, ela %v", method, ela)
 	metrics.SetGauge(key, float64(ela.Microseconds()))
 
 	return rsp, err

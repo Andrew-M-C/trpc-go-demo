@@ -7,8 +7,8 @@ server:
   timeout: 2000
   service:
     - name: demo.httpauth.Auth
-      ip: 127.0.0.1
-      # nic: eth0
+      # ip: 127.0.0.1
+      nic: eth0
       port: 8001
       network: tcp
       protocol: http
@@ -40,6 +40,28 @@ plugins:
           max_size: 1000
           max_backups: 10
 
+  registry:
+    polarismesh:
+      register_self: true
+      heartbeat_interval: 1000
+      protocol: grpc
+      address_list: host.docker.internal:8091
+      service:
+        - name: demo.httpauth.Auth
+          namespace: dev
+          bind_address: host.docker.internal:8001
+          prefer_bind_address: true
+          # bind_address: $BIND_ADDRESS
+          weight: 100
+          token: not_needed
+  selector:
+    polarismesh:
+      protocol: grpc
+      join_point: default
+      address_list: host.docker.internal:8091
+      persistDir: ./polarismesh/backup
+      log_dir: ./polarismesh/log
+
   metrics:
     log:
       name: demo.httpauth.Auth
@@ -58,7 +80,8 @@ client:
   timeout: 3000
   service:
     - name: demo.account.User
-      target: ip://127.0.0.1:8002
+      target: polarismesh://demo.account.User
+      namespace: dev
       network: tcp
       protocol: trpc
       timeout: 1000

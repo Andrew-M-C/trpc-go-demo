@@ -6,6 +6,8 @@ import (
 	"github.com/Andrew-M-C/trpc-go-utils/tracelog"
 	trpc "trpc.group/trpc-go/trpc-go"
 	"trpc.group/trpc-go/trpc-go/log"
+
+	_ "trpc.group/trpc-go/trpc-naming-polarismesh"
 )
 
 func main() {

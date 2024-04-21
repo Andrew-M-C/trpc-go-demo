@@ -8,12 +8,18 @@ import (
 	"github.com/Andrew-M-C/trpc-go-utils/codec"
 	"github.com/Andrew-M-C/trpc-go-utils/errs"
 	metricslog "github.com/Andrew-M-C/trpc-go-utils/metrics/log"
+	"github.com/Andrew-M-C/trpc-go-utils/recovery"
 	"github.com/Andrew-M-C/trpc-go-utils/tracelog"
 	trpc "trpc.group/trpc-go/trpc-go"
 	"trpc.group/trpc-go/trpc-go/log"
+
+	_ "trpc.group/trpc-go/trpc-naming-polarismesh"
+	_ "trpc.group/trpc-go/trpc-naming-polarismesh/selector"
 )
 
 func main() {
+	defer recovery.CatchPanic(recovery.WithErrorLog())
+
 	initialize()
 	s := trpc.NewServer()
 

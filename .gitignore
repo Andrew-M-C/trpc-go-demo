@@ -25,3 +25,8 @@ bin
 
 # hidden files
 .*
+
+# log files
+*.log
+polaris
+polarismesh

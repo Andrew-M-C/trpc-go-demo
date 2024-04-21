@@ -7,6 +7,7 @@ PB_DIRS = $(sort $(dir $(PB_FILES)))
 PB_GO_FILES = $(shell find . -name '*.pb.go')
 PB_DIR_TGTS = $(addprefix _PB, $(PB_DIRS))
 WORK_DIR = $(shell pwd)
+PB_VER = 26.1
 
 .PHONY: all
 all: $(SERVERS)
@@ -15,8 +16,9 @@ all: $(SERVERS)
 $(SERVERS):
 	@echo -n "Now build $@ ... "
 	@mkdir -p bin && touch bin/.gitignore
-	@go mod tidy && go build ./app/$@/
+	@go mod tidy && go build -ldflags "-X google.golang.org/protobuf/reflect/protoregistry.conflictPolicy=warn" ./app/$@/
 	@mv $@ bin && echo Done
+# Reference: [解决《panic: proto: file “xxx.proto“ is already registered》问题](https://blog.csdn.net/zhaolinfenggg/article/details/135776526)
 
 .PHONY: lint
 lint:
@@ -56,9 +58,10 @@ $(PB_DIR_TGTS):
 			trpc create -f --protofile=DD --protocol=trpc --rpconly --nogomod --alias --mock=false --protodir=$(WORK_DIR)/proto; \
 		ls *.trpc.go | xargs -I DD mockgen -source=DD -destination=mock/DD -package=mock ; \
 		find `pwd` -name '*.pb.go'; \
+		find `pwd` -name '*.pb.go' | xargs -I XXXX sed -i 's/err_code,omitempty/err_code/g' XXXX; \
 	done
 
-_PROTOC_PKG_URL=https://github.com/protocolbuffers/protobuf/releases/download/v25.1/protoc-25.2-linux-x86_64.zip
+_PROTOC_PKG_URL=https://github.com/protocolbuffers/protobuf/releases/download/v$(PB_VER)/protoc-$(PB_VER)-linux-x86_64.zip
 
 # installpb 用于在设备上安装 protobuf 编译器, 仅适用于 Linux 环境。
 # 如果环境 OK 那么不用执行

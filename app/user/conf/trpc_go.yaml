@@ -3,8 +3,8 @@ server:
     - tracelog
   service:
     - name: demo.account.User
-      ip: 127.0.0.1
-      # nic: eth0
+      # ip: 127.0.0.1
+      nic: eth0
       port: 8002
       network: tcp
       protocol: trpc
@@ -34,6 +34,21 @@ plugins:
           roll_type: size
           max_size: 1000
           max_backups: 10
+
+  registry:
+    polarismesh:
+      register_self: true
+      heartbeat_interval: 1000
+      protocol: grpc
+      address_list: host.docker.internal:8091
+      service:
+        - name: demo.account.User
+          namespace: dev
+          bind_address: host.docker.internal:8002
+          prefer_bind_address: true
+          # bind_address: $BIND_ADDRESS
+          weight: 100
+          token: not_needed
 
 client:
   filter:
