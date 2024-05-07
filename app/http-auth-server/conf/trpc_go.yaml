@@ -73,17 +73,3 @@ plugins:
         - host.docker.internal:22379
         - host.docker.internal:23379
       dialtimeout: 5s
-
-client:
-  filter:
-    - tracelog
-  timeout: 3000
-  service:
-    - name: demo.account.User
-      target: polarismesh://demo.account.User
-      namespace: dev
-      network: tcp
-      protocol: trpc
-      timeout: 1000
-      filter:
-        - err_to_code

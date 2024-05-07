@@ -28,6 +28,15 @@ func (c *GeneralConfigGetter) InitializeGeneralConfigGetter(dep Dependency) erro
 		return fmt.Errorf("绑定配置失败 (%w)", err)
 	}
 
+	var yml *string
+	err = config.Bind(
+		context.Background(), etcd.API{}, "text",
+		"/http-auth-server/client.yaml", &yml,
+	)
+	if err != nil {
+		return fmt.Errorf("绑定测试配置失败 (%w)", err)
+	}
+
 	return nil
 }
 

@@ -2,7 +2,6 @@
 package service
 
 import (
-	"github.com/Andrew-M-C/trpc-go-demo/app/http-auth-server/repo"
 	"github.com/Andrew-M-C/trpc-go-demo/proto/httpauth"
 	"trpc.group/trpc-go/trpc-go/server"
 )
@@ -18,7 +17,11 @@ func RegisterAuthService(s server.Service, dep Dependency) error {
 }
 
 type Dependency struct {
-	Repo *repo.Repo
+	Repo Repo
+}
+
+type Repo interface {
+	GetEnv() string
 }
 
 type authServiceImpl struct {
