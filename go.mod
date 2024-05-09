@@ -3,7 +3,7 @@ module github.com/Andrew-M-C/trpc-go-demo
 go 1.21
 
 require (
-	github.com/Andrew-M-C/trpc-go-utils v0.0.0-20240507093418-c80106dfee3d
+	github.com/Andrew-M-C/trpc-go-utils v0.0.0-20240509075550-78be0e3f70d6
 	go.uber.org/mock v0.4.0
 	google.golang.org/protobuf v1.33.0
 	trpc.group/trpc-go/trpc-database/mysql v1.0.0
@@ -12,14 +12,15 @@ require (
 )
 
 require (
-	github.com/Andrew-M-C/go.jsonvalue v1.3.6 // indirect
-	github.com/Andrew-M-C/go.util/errors v0.0.0-20240305040057-34fd9d5dbbca // indirect
-	github.com/Andrew-M-C/go.util/ids v0.0.0-20240305040057-34fd9d5dbbca // indirect
-	github.com/Andrew-M-C/go.util/runtime v0.0.0-20240305040057-34fd9d5dbbca // indirect
+	github.com/Andrew-M-C/go.jsonvalue v1.3.8 // indirect
+	github.com/Andrew-M-C/go.util/channel v0.0.0-20240508064515-6f76fd3f2e8a // indirect
+	github.com/Andrew-M-C/go.util/errors v0.0.0-20240508064515-6f76fd3f2e8a // indirect
+	github.com/Andrew-M-C/go.util/ids v0.0.0-20240508064515-6f76fd3f2e8a // indirect
+	github.com/Andrew-M-C/go.util/runtime v0.0.0-20240508064515-6f76fd3f2e8a // indirect
 	github.com/Andrew-M-C/go.util/slice v0.0.0-20240221044053-8b90aa4683c0 // indirect
-	github.com/Andrew-M-C/go.util/sync v0.0.0-20240305040057-34fd9d5dbbca // indirect
+	github.com/Andrew-M-C/go.util/sync v0.0.0-20240508064515-6f76fd3f2e8a // indirect
 	github.com/Andrew-M-C/go.util/time v0.0.0-20240221044053-8b90aa4683c0 // indirect
-	github.com/Andrew-M-C/go.util/unsafe v0.0.0-20240412074351-fa5f90658df5 // indirect
+	github.com/Andrew-M-C/go.util/unsafe v0.0.0-20240508064515-6f76fd3f2e8a // indirect
 	github.com/BurntSushi/toml v1.3.2 // indirect
 	github.com/andybalholm/brotli v1.0.4 // indirect
 	github.com/beorn7/perks v1.0.1 // indirect
@@ -35,7 +36,6 @@ require (
 	github.com/golang/protobuf v1.5.2 // indirect
 	github.com/golang/snappy v0.0.3 // indirect
 	github.com/google/flatbuffers v2.0.0+incompatible // indirect
-	github.com/google/go-cmp v0.6.0 // indirect
 	github.com/google/uuid v1.3.0 // indirect
 	github.com/hashicorp/errwrap v1.0.0 // indirect
 	github.com/hashicorp/go-multierror v1.1.1 // indirect
@@ -60,7 +60,7 @@ require (
 	github.com/prometheus/common v0.32.1 // indirect
 	github.com/prometheus/procfs v0.7.3 // indirect
 	github.com/rogpeppe/go-internal v1.12.0 // indirect
-	github.com/shopspring/decimal v1.3.1 // indirect
+	github.com/shopspring/decimal v1.4.0 // indirect
 	github.com/spaolacci/murmur3 v1.1.0 // indirect
 	github.com/spf13/cast v1.3.1 // indirect
 	github.com/valyala/bytebufferpool v1.0.0 // indirect
@@ -72,7 +72,7 @@ require (
 	go.uber.org/automaxprocs v1.5.3 // indirect
 	go.uber.org/multierr v1.6.0 // indirect
 	go.uber.org/zap v1.24.0 // indirect
-	golang.org/x/exp v0.0.0-20240416160154-fe59bbe5cc7f // indirect
+	golang.org/x/exp v0.0.0-20240506185415-9bf2ced13842 // indirect
 	golang.org/x/net v0.24.0 // indirect
 	golang.org/x/sync v0.7.0 // indirect
 	golang.org/x/sys v0.20.0 // indirect

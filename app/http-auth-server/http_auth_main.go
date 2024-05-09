@@ -68,11 +68,11 @@ func initServer() (*server.Server, error) {
 	// 初始化 trpc
 	s := trpc.NewServer()
 
-	// 后置初始化
-	if err := etcdutil.ReplaceGlobalClient(
+	// 后置配置
+	if err := etcdutil.RegisterClientProvider(
 		context.Background(), s, "/http-auth-server/client.yaml",
 	); err != nil {
-		return nil, fmt.Errorf("热更新 client.yaml 失败 (%w)", err)
+		return nil, err
 	}
 
 	return s, nil
