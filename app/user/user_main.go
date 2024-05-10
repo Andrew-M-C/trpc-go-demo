@@ -1,18 +1,28 @@
 package main
 
 import (
+	"context"
+
 	"github.com/Andrew-M-C/trpc-go-demo/app/user/repo"
 	"github.com/Andrew-M-C/trpc-go-demo/app/user/service"
+	"github.com/Andrew-M-C/trpc-go-demo/utils/filter/count"
+	"github.com/Andrew-M-C/trpc-go-demo/utils/filter/elapse"
+	"github.com/Andrew-M-C/trpc-go-utils/codec"
+	etcdutil "github.com/Andrew-M-C/trpc-go-utils/config/etcd"
+	"github.com/Andrew-M-C/trpc-go-utils/errs"
 	"github.com/Andrew-M-C/trpc-go-utils/tracelog"
 	trpc "trpc.group/trpc-go/trpc-go"
 	"trpc.group/trpc-go/trpc-go/log"
+	"trpc.group/trpc-go/trpc-go/server"
 
 	_ "trpc.group/trpc-go/trpc-naming-polarismesh"
 )
 
 func main() {
-	tracelog.RegisterTraceLogFilter()
-	s := trpc.NewServer()
+	s, err := initServer()
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	r, err := initializeRepo()
 	if err != nil {
@@ -26,6 +36,27 @@ func main() {
 	if err := s.Serve(); err != nil {
 		log.Fatalf("启动服务失败: %v", err)
 	}
+}
+
+func initServer() (*server.Server, error) {
+	// trpc 基础注册
+	errs.RegisterErrToCodeFilter()
+	tracelog.RegisterTraceLogFilter()
+	elapse.RegisterFilter()
+	count.RegisterFilter()
+	codec.UseOfficialJSON()
+
+	// 初始化 trpc
+	s := trpc.NewServer()
+
+	// 后置配置
+	if err := etcdutil.RegisterClientProvider(
+		context.Background(), s, "/user/client.yaml",
+	); err != nil {
+		return nil, err
+	}
+
+	return s, nil
 }
 
 func initializeRepo() (*repo.Repo, error) {

@@ -50,11 +50,19 @@ plugins:
           weight: 100
           token: not_needed
 
-client:
-  filter:
-    - tracelog
-  service:
-    - name: db.mysql.userAccount
-      namespace: dev
-      target: ip://root:123456@tcp(host.docker.internal:3306)/db_test?charset=utf8mb4&parseTime=true&loc=Local&timeout=1s
-      timeout: 1000
+  config:
+    etcd:
+      endpoints:
+        - host.docker.internal:21379
+        - host.docker.internal:22379
+        - host.docker.internal:23379
+      dialtimeout: 5s
+
+# client:
+#   filter:
+#     - tracelog
+#   service:
+#     - name: db.mysql.userAccount
+#       namespace: dev
+#       target: ip://root:123456@tcp(host.docker.internal:3306)/db_test?charset=utf8mb4&parseTime=true&loc=Local&timeout=1s
+#       timeout: 1000

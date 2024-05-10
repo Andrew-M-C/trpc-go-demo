@@ -3,7 +3,7 @@ module github.com/Andrew-M-C/trpc-go-demo
 go 1.21
 
 require (
-	github.com/Andrew-M-C/trpc-go-utils v0.0.0-20240509075550-78be0e3f70d6
+	github.com/Andrew-M-C/trpc-go-utils v0.0.0-20240510080606-b85e1a38f897
 	go.uber.org/mock v0.4.0
 	google.golang.org/protobuf v1.33.0
 	trpc.group/trpc-go/trpc-database/mysql v1.0.0
