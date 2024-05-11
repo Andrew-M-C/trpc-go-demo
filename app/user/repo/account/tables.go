@@ -7,9 +7,9 @@ import (
 )
 
 type userAccountItem struct {
-	ID           int64  `db:"id"`
-	Username     string `db:"username"`
-	PasswordHash string `db:"password_hash"`
+	ID           int64  `db:"id"            gorm:"column:id"`
+	Username     string `db:"username"      gorm:"column:username"`
+	PasswordHash string `db:"password_hash" gorm:"column:password_hash"`
 }
 
 // TableName 返回表名
