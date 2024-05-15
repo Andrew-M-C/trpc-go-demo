@@ -58,6 +58,9 @@ plugins:
         - host.docker.internal:23379
       dialtimeout: 5s
 
+    client_yaml:
+      key: /user/client.yaml
+
 # client:
 #   filter:
 #     - tracelog

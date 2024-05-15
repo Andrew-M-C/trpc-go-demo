@@ -10,6 +10,7 @@ import (
 	"github.com/Andrew-M-C/trpc-go-utils/codec"
 	etcdutil "github.com/Andrew-M-C/trpc-go-utils/config/etcd"
 	"github.com/Andrew-M-C/trpc-go-utils/errs"
+	"github.com/Andrew-M-C/trpc-go-utils/plugin"
 	"github.com/Andrew-M-C/trpc-go-utils/tracelog"
 	trpc "trpc.group/trpc-go/trpc-go"
 	"trpc.group/trpc-go/trpc-go/log"
@@ -39,6 +40,12 @@ func main() {
 }
 
 func initServer() (*server.Server, error) {
+	// 获取 trpc_go.yaml 中的配置
+	clientYamlConf := struct {
+		Key string `yaml:"key"`
+	}{}
+	plugin.Bind("config", "client_yaml", &clientYamlConf)
+
 	// trpc 基础注册
 	errs.RegisterErrToCodeFilter()
 	tracelog.RegisterTraceLogFilter()
@@ -50,10 +57,10 @@ func initServer() (*server.Server, error) {
 	s := trpc.NewServer()
 
 	// 后置配置
-	if err := etcdutil.RegisterClientProvider(
-		context.Background(), s, "/user/client.yaml",
-	); err != nil {
-		return nil, err
+	if k := clientYamlConf.Key; k != "" {
+		if err := etcdutil.RegisterClientProvider(context.Background(), s, k); err != nil {
+			return nil, err
+		}
 	}
 
 	return s, nil
