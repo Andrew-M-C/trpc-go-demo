@@ -22,6 +22,7 @@ import (
 type MockAuthService struct {
 	ctrl     *gomock.Controller
 	recorder *MockAuthServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockAuthServiceMockRecorder is the mock recorder for MockAuthService.
@@ -75,6 +76,7 @@ func (mr *MockAuthServiceMockRecorder) Synchronize(ctx, req any) *gomock.Call {
 type MockAuthClientProxy struct {
 	ctrl     *gomock.Controller
 	recorder *MockAuthClientProxyMockRecorder
+	isgomock struct{}
 }
 
 // MockAuthClientProxyMockRecorder is the mock recorder for MockAuthClientProxy.

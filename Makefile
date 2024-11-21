@@ -2,15 +2,24 @@
 ARCH=$(shell uname -s)
 SERVERS:=$(shell ls app)
 
+WORK_DIR = $(shell pwd)
+
+PB_VER = 27.3
 PB_FILES = $(shell find . -name '*.proto')
 PB_DIRS = $(sort $(dir $(PB_FILES)))
 PB_GO_FILES = $(shell find . -name '*.pb.go')
 PB_DIR_TGTS = $(addprefix _PB, $(PB_DIRS))
-WORK_DIR = $(shell pwd)
-PB_VER = 26.1
 
-.PHONY: all
-all: $(SERVERS)
+CPU_NUM = $(shell nproc)
+
+ifeq ($(CPU_NUM),1)
+	WIRE_MAX_CPU_NO := 0
+else
+	WIRE_MAX_CPU_NO := $(shell expr $(CPU_NUM) - 2)
+endif
+
+.PHONY: servers
+servers: $(SERVERS)
 
 .PHONY: $(SERVERS)
 $(SERVERS):
@@ -20,10 +29,9 @@ $(SERVERS):
 	@mv $@ bin && echo Done
 # Reference: [解决《panic: proto: file “xxx.proto“ is already registered》问题](https://blog.csdn.net/zhaolinfenggg/article/details/135776526)
 
-.PHONY: lint
-lint:
-	golint ./...
-	golangci-lint run ./...
+.PHONY: all
+all: pb wire gogenerate $(SERVERS)
+	go mod tidy
 
 .PHONY: fmt
 fmt:
@@ -40,11 +48,18 @@ cover:
 	go tool cover -html=tmp_coverage.out
 	if [ -f "tmp_coverage.out" ]; then rm tmp_coverage.out; fi
 
+.PHONY: install
+install: installpb installtrpc installmock installwire
+	@echo
+	@mockgen -version | xargs echo mockgen version:
+	@protoc --version | xargs echo "Protobuf version:"
+	@trpc version
 # ======== protobuf 文件编译支持 ========
 
 # pb 编译规则
 .PHONY: pb
 pb: $(PB_DIR_TGTS)
+	go mod tidy
 
 # 寻找包含 .proto 的目录并编译
 .PHONY: $(PB_DIR_TGTS)
@@ -71,6 +86,7 @@ installpb:
 	7z x $(notdir $(_PROTOC_PKG_URL)) -o/usr/local -y
 	rm -f $(notdir $(_PROTOC_PKG_URL))*
 	chmod +x /usr/local/bin/protoc
+	go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
 	@echo ---- $@ done ----
 	@protoc --version | xargs echo "Protobuf version:"
 
@@ -108,3 +124,31 @@ $(GO_GENERATE_DIRS):
 		cd $$dir; \
 		go generate; \
 	done
+
+# ======== Google wire 支持 ========
+
+WIRE_DIRS=
+ifeq ($(ARCH), Darwin)
+	WIRE_DIRS=$(sort $(dir $(shell grep -lr --include='*.go' '//go:build wireinject' .)))
+else ifeq ($(ARCH), Linux)
+	WIRE_DIRS=$(sort $(dir $(shell grep -lr --include='*.go' '//go:build wireinject')))
+else
+	$(error 不支持的系统: $(ARCH))
+endif
+
+.PHONY: wire
+wire:
+	@echo Start: `date`
+	@echo wire targets: $(WIRE_DIRS)
+	@for dir in $(WIRE_DIRS); do \
+		echo ===== wire gen $$dir =======; \
+		cd $(WORK_DIR)/$$dir; \
+		taskset -c $(WIRE_MAX_CPU_NO) wire gen ./; \
+	done
+	@echo Done: `date`
+
+.PHONY: installwire
+installwire:
+	go install github.com/google/wire/cmd/wire@latest
+	export PATH=$(PATH):$(go env GOPATH)/bin
+	which wire

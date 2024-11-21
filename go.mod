@@ -3,7 +3,7 @@ module github.com/Andrew-M-C/trpc-go-demo
 go 1.21
 
 require (
-	github.com/Andrew-M-C/trpc-go-utils v0.0.0-20240511075732-be573adb8b5b
+	github.com/Andrew-M-C/trpc-go-utils v0.0.0-20241121073043-86aa1bf14a85
 	go.uber.org/mock v0.4.0
 	google.golang.org/protobuf v1.34.1
 	gorm.io/gorm v1.25.10
@@ -13,11 +13,11 @@ require (
 )
 
 require (
-	github.com/Andrew-M-C/go.jsonvalue v1.3.8 // indirect
+	github.com/Andrew-M-C/go.jsonvalue v1.4.1 // indirect
 	github.com/Andrew-M-C/go.util/channel v0.0.0-20240508064515-6f76fd3f2e8a // indirect
 	github.com/Andrew-M-C/go.util/errors v0.0.0-20240508064515-6f76fd3f2e8a // indirect
 	github.com/Andrew-M-C/go.util/ids v0.0.0-20240508064515-6f76fd3f2e8a // indirect
-	github.com/Andrew-M-C/go.util/runtime v0.0.0-20240508064515-6f76fd3f2e8a // indirect
+	github.com/Andrew-M-C/go.util/runtime v0.0.0-20240614030833-e1060da1a642 // indirect
 	github.com/Andrew-M-C/go.util/slice v0.0.0-20240221044053-8b90aa4683c0 // indirect
 	github.com/Andrew-M-C/go.util/sync v0.0.0-20240508064515-6f76fd3f2e8a // indirect
 	github.com/Andrew-M-C/go.util/time v0.0.0-20240221044053-8b90aa4683c0 // indirect
@@ -40,7 +40,7 @@ require (
 	github.com/gogo/protobuf v1.3.2 // indirect
 	github.com/golang/mock v1.6.0 // indirect
 	github.com/golang/protobuf v1.5.2 // indirect
-	github.com/golang/snappy v0.0.3 // indirect
+	github.com/golang/snappy v0.0.4 // indirect
 	github.com/google/flatbuffers v2.0.0+incompatible // indirect
 	github.com/google/uuid v1.6.0 // indirect
 	github.com/hashicorp/errwrap v1.0.0 // indirect

@@ -22,6 +22,7 @@ import (
 type MockHelloWorldService struct {
 	ctrl     *gomock.Controller
 	recorder *MockHelloWorldServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockHelloWorldServiceMockRecorder is the mock recorder for MockHelloWorldService.
@@ -60,6 +61,7 @@ func (mr *MockHelloWorldServiceMockRecorder) Hello(ctx, req any) *gomock.Call {
 type MockHelloWorldClientProxy struct {
 	ctrl     *gomock.Controller
 	recorder *MockHelloWorldClientProxyMockRecorder
+	isgomock struct{}
 }
 
 // MockHelloWorldClientProxyMockRecorder is the mock recorder for MockHelloWorldClientProxy.
