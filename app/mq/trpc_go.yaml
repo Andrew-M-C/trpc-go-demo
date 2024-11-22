@@ -1,0 +1,33 @@
+server:
+  timeout: 3000
+  filter:
+    - elapse
+    - count
+    - tracelog
+    - err_to_code
+  service:
+    - name: kafka.amc.demo.mq
+      address: host.docker.internal:9092?topics=string,json&group=test_group
+      protocol: kafka
+
+    - name: demo.mq.MQ
+      ip: 127.0.0.1
+      # nic: eth0
+      port: 8003
+      network: tcp
+      protocol: http
+
+client:
+  filter:
+    - tracelog
+  service:
+    - name: kafka.amc.demo.string
+      namespace: dev
+      target: kafka://host.docker.internal:9092?topic=string
+      timeout: 1000
+
+    - name: kafka.amc.demo.json
+      namespace: dev
+      target: kafka://host.docker.internal:9092?topic=json
+      timeout: 1000
+    

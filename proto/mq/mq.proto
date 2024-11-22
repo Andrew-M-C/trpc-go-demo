@@ -1,0 +1,24 @@
+syntax = "proto3";
+package demo.mq;
+
+option go_package = "github.com/Andrew-M-C/trpc-go-demo/proto/mq";
+
+import "common/metadata.proto";
+
+// MQ 提供消息队列测试接口
+service MQ {
+    rpc TestMQAdd(TestMQAddRequest) returns (TestMQAddResponse); // @alias=/demo/mq/add
+}
+
+message TestMQAddRequest {
+    common.Metadata metadata = 1;
+    int32 count = 2;
+    string type = 3; // json 或 string
+}
+
+message TestMQAddResponse {
+    int32  err_code = 1;
+    string err_msg  = 2;
+}
+
+
