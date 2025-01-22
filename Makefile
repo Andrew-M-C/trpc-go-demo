@@ -4,19 +4,11 @@ SERVERS:=$(shell ls app)
 
 WORK_DIR = $(shell pwd)
 
-PB_VER = 27.3
+PB_VERSION = 27.3
 PB_FILES = $(shell find . -name '*.proto')
 PB_DIRS = $(sort $(dir $(PB_FILES)))
 PB_GO_FILES = $(shell find . -name '*.pb.go')
 PB_DIR_TGTS = $(addprefix _PB, $(PB_DIRS))
-
-CPU_NUM = $(shell nproc)
-
-ifeq ($(CPU_NUM),1)
-	WIRE_MAX_CPU_NO := 0
-else
-	WIRE_MAX_CPU_NO := $(shell expr $(CPU_NUM) - 2)
-endif
 
 .PHONY: servers
 servers: $(SERVERS)
@@ -54,6 +46,7 @@ install: installpb installtrpc installmock installwire
 	@mockgen -version | xargs echo mockgen version:
 	@protoc --version | xargs echo "Protobuf version:"
 	@trpc version
+
 # ======== protobuf 文件编译支持 ========
 
 # pb 编译规则
@@ -76,7 +69,7 @@ $(PB_DIR_TGTS):
 		find `pwd` -name '*.pb.go' | xargs -I XXXX sed -i 's/err_code,omitempty/err_code/g' XXXX; \
 	done
 
-_PROTOC_PKG_URL=https://github.com/protocolbuffers/protobuf/releases/download/v$(PB_VER)/protoc-$(PB_VER)-linux-x86_64.zip
+_PROTOC_PKG_URL=https://github.com/protocolbuffers/protobuf/releases/download/v$(PB_VERSION)/protoc-$(PB_VERSION)-linux-x86_64.zip
 
 # installpb 用于在设备上安装 protobuf 编译器, 仅适用于 Linux 环境。
 # 如果环境 OK 那么不用执行
@@ -108,7 +101,7 @@ else
 endif
 
 .PHONY: gogenerate
-gogenerate: mockinstall $(GO_GENERATE_DIRS)
+gogenerate: installmock $(GO_GENERATE_DIRS)
 	@go mod tidy
 
 .PHONY: installmock
@@ -136,6 +129,13 @@ else
 	$(error 不支持的系统: $(ARCH))
 endif
 
+CPU_NUM = $(shell nproc)
+ifeq ($(CPU_NUM),1)
+	WIRE_MAX_CPU_NO := 0
+else
+	WIRE_MAX_CPU_NO := $(shell expr $(CPU_NUM) - 1)
+endif
+
 .PHONY: wire
 wire:
 	@echo Start: `date`
@@ -152,3 +152,9 @@ installwire:
 	go install github.com/google/wire/cmd/wire@latest
 	export PATH=$(PATH):$(go env GOPATH)/bin
 	which wire
+
+# ======== lint 支持 ========
+
+.PHONY: lint
+lint:
+	./lint_blame.sh

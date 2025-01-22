@@ -24,7 +24,7 @@ type userImpl struct{}
 
 // GetAccountByUserName 根据用户名获取帐户信息
 func (impl *userImpl) GetAccountByUserName(
-	ctx context.Context, req *user.GetAccountByUserNameRequest,
+	context.Context, *user.GetAccountByUserNameRequest,
 ) (*user.GetAccountByUserNameResponse, error) {
 	return nil, errServerIsNotReal
 }

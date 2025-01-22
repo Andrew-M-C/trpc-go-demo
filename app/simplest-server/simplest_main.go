@@ -17,7 +17,7 @@ func main() {
 
 type helloWorldImpl struct{}
 
-func (helloWorldImpl) Hello(ctx context.Context, req *simplest.HelloRequest) (*simplest.HelloResponse, error) {
+func (helloWorldImpl) Hello(_ context.Context, req *simplest.HelloRequest) (*simplest.HelloResponse, error) {
 	rsp := &simplest.HelloResponse{}
 	rsp.Response = fmt.Sprintf("%s to you, too", req.Greeting)
 	rsp.Timestamp = float64(time.Now().UnixMilli()) / 1000

@@ -10,7 +10,6 @@ import (
 	jsonvalue "github.com/Andrew-M-C/go.jsonvalue"
 	pb "github.com/Andrew-M-C/trpc-go-demo/proto/mq"
 	"github.com/Andrew-M-C/trpc-go-utils/log"
-	"github.com/Andrew-M-C/trpc-go-utils/tracelog"
 	"github.com/IBM/sarama"
 	"trpc.group/trpc-go/trpc-database/kafka"
 	"trpc.group/trpc-go/trpc-go/server"
@@ -42,19 +41,14 @@ func (impl *impl) initialize(s *server.Server) error {
 func (impl *impl) batchConsumeMQ(
 	ctx context.Context, msgList []*sarama.ConsumerMessage,
 ) error {
-	log.New(ctx).Text("收到批量 Kafka 消息").
-		Int("count", len(msgList)).
-		Stringer("data", tracelog.ToJSON(msgList)).
-		Info()
+	log.New().Text("收到批量 Kafka 消息").With("count", len(msgList)).WithJSON("data", msgList).InfoContext(ctx)
 	return nil
 }
 
 func (impl *impl) onceConsumeMQ(
 	ctx context.Context, msg *sarama.ConsumerMessage,
 ) error {
-	log.New(ctx).Text("收到一条 Kafka 消息").
-		Stringer("data", tracelog.ToJSON(msg)).
-		Info()
+	log.New().Text("收到一条 Kafka 消息").WithJSON("data", msg).InfoContext(ctx)
 	return nil
 }
 
@@ -97,6 +91,6 @@ func (impl *impl) TestMQAdd(
 		}
 	}
 
-	log.New(ctx).Text("写入成功").Int("count", int(req.GetCount())).Debug()
+	log.New().Text("写入成功").With("count", int(req.GetCount())).DebugContext(ctx)
 	return &pb.TestMQAddResponse{}, nil
 }

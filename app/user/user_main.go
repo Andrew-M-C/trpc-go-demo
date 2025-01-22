@@ -10,10 +10,9 @@ import (
 	"github.com/Andrew-M-C/trpc-go-utils/codec"
 	etcdutil "github.com/Andrew-M-C/trpc-go-utils/config/etcd"
 	"github.com/Andrew-M-C/trpc-go-utils/errs"
+	"github.com/Andrew-M-C/trpc-go-utils/log"
 	"github.com/Andrew-M-C/trpc-go-utils/plugin"
-	"github.com/Andrew-M-C/trpc-go-utils/tracelog"
 	trpc "trpc.group/trpc-go/trpc-go"
-	"trpc.group/trpc-go/trpc-go/log"
 	"trpc.group/trpc-go/trpc-go/server"
 
 	_ "trpc.group/trpc-go/trpc-naming-polarismesh"
@@ -48,7 +47,7 @@ func initServer() (*server.Server, error) {
 
 	// trpc 基础注册
 	errs.RegisterErrToCodeFilter()
-	tracelog.RegisterTraceLogFilter()
+	log.RegisterTraceLogFilter()
 	elapse.RegisterFilter()
 	count.RegisterFilter()
 	codec.UseOfficialJSON()

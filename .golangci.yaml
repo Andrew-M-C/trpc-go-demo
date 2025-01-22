@@ -1,8 +1,7 @@
+
 linters-settings:
   govet:
     check-shadowing: false
-  golint:
-    min-confidence: 0
   gocyclo:
     min-complexity: 15
   maligned:
@@ -33,36 +32,37 @@ linters:
   disable-all: true
   enable:
     - bodyclose
-    #- deadcode
+    # - deadcode # The linter 'deadcode' is deprecated (since v1.49.0) due to: The owner seems to have abandoned the linter. Replaced by unused.
     # - depguard
     - dogsled
     - dupl
     - errcheck
     - funlen
-    #- gochecknoinits
+    - gochecknoinits
     - goconst
-    #- gocritic
+    - gocritic
     - gocyclo
     - gofmt
     - goimports
-    - golint
-    #- gosec
+    # - golint #  linter 'golint' is deprecated (since v1.41.0) due to: The repository of the linter has been archived by the owner. Replaced by revive.
+    - revive
+    - gosec
     - gosimple
     - govet
     - ineffassign
-    #- interfacer
+    # - interfacer # The linter 'interfacer' is deprecated (since v1.38.0) due to: The repository of the linter has been archived by the owner.
     - lll
     - misspell
-    #- nakedret
-    #- scopelint
+    # - nakedret
+    # - scopelint # The linter 'scopelint' is deprecated (since v1.39.0) due to: The repository of the linter has been deprecated by the owner. Replaced by exportloopref.
     - staticcheck
-    #- structcheck
+    # - structcheck # The linter 'structcheck' is deprecated (since v1.49.0) due to: The owner seems to have abandoned the linter. Replaced by unused.
     - stylecheck
-    #- typecheck
+    - typecheck
     - unconvert
-    #- unparam
+    - unparam
     - unused
-    - varcheck
+    # - varcheck # The linter 'varcheck' is deprecated (since v1.49.0) due to: The owner seems to have abandoned the linter. Replaced by unused.
     - whitespace
 
   # don't enable:
@@ -71,11 +71,16 @@ linters:
   # - gochecknoglobals
 
 run:
-  skip-dirs:
+
+issues:
+  exclude-dirs:
     - testdata
+    - bin
   issues-exit-code: 1
 
 output:
   print-issued-lines: false
 service:
   golangci-lint-version: 1.19.x 
+
+

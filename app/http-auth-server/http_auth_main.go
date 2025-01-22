@@ -11,11 +11,10 @@ import (
 	"github.com/Andrew-M-C/trpc-go-utils/codec"
 	etcdutil "github.com/Andrew-M-C/trpc-go-utils/config/etcd"
 	"github.com/Andrew-M-C/trpc-go-utils/errs"
+	"github.com/Andrew-M-C/trpc-go-utils/log"
 	metricslog "github.com/Andrew-M-C/trpc-go-utils/metrics/log"
 	"github.com/Andrew-M-C/trpc-go-utils/recovery"
-	"github.com/Andrew-M-C/trpc-go-utils/tracelog"
 	trpc "trpc.group/trpc-go/trpc-go"
-	"trpc.group/trpc-go/trpc-go/log"
 	"trpc.group/trpc-go/trpc-go/server"
 
 	_ "trpc.group/trpc-go/trpc-naming-polarismesh"
@@ -27,18 +26,21 @@ func main() {
 
 	s, err := initServer()
 	if err != nil {
-		log.Fatal(err)
+		log.Error(err)
+		return
 	}
 	dep, err := initDependency()
 	if err != nil {
-		log.Fatal(err)
+		log.Error(err)
+		return
 	}
 	if err := service.RegisterAuthService(s, dep); err != nil {
-		log.Fatalf("初始化服务失败: %v", err)
+		log.Errorf("初始化服务失败: %v", err)
+		return
 	}
 
 	if err := s.Serve(); err != nil {
-		log.Fatalf("启动服务失败: %v", err)
+		log.Error("启动服务失败: %v", err)
 	}
 }
 
@@ -59,7 +61,7 @@ func initDependency() (service.Dependency, error) {
 func initServer() (*server.Server, error) {
 	// trpc 基础注册
 	errs.RegisterErrToCodeFilter()
-	tracelog.RegisterTraceLogFilter()
+	log.RegisterTraceLogFilter()
 	metricslog.RegisterMetricsMySQL()
 	elapse.RegisterFilter()
 	count.RegisterFilter()

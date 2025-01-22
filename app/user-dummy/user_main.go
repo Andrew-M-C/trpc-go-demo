@@ -3,9 +3,8 @@ package main
 import (
 	"github.com/Andrew-M-C/trpc-go-demo/app/user-dummy/service"
 	"github.com/Andrew-M-C/trpc-go-utils/errs"
-	"github.com/Andrew-M-C/trpc-go-utils/tracelog"
+	"github.com/Andrew-M-C/trpc-go-utils/log"
 	trpc "trpc.group/trpc-go/trpc-go"
-	"trpc.group/trpc-go/trpc-go/log"
 )
 
 func main() {
@@ -23,5 +22,5 @@ func main() {
 
 func initialize() {
 	errs.RegisterErrToCodeFilter()
-	tracelog.RegisterTraceLogFilter()
+	log.RegisterTraceLogFilter()
 }

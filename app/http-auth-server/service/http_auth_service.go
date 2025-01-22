@@ -8,8 +8,7 @@ import (
 	errentity "github.com/Andrew-M-C/trpc-go-demo/entity/errs"
 	"github.com/Andrew-M-C/trpc-go-demo/proto/httpauth"
 	"github.com/Andrew-M-C/trpc-go-demo/proto/user"
-	"github.com/Andrew-M-C/trpc-go-utils/tracelog"
-	"trpc.group/trpc-go/trpc-go/log"
+	"github.com/Andrew-M-C/trpc-go-utils/log"
 )
 
 // Login 实现 http 登录
@@ -26,7 +25,7 @@ func (impl *authServiceImpl) Login(
 		return nil, err
 	}
 
-	log.DebugContextf(ctx, "rsp: '%v'", tracelog.ToJSON(uRsp))
+	log.DebugContextf(ctx, "rsp: '%v'", log.ToJSON(uRsp))
 	if req.GetPasswordHash() != uRsp.GetPasswordHash() {
 		return nil, errentity.PasswordError
 	}
@@ -35,7 +34,7 @@ func (impl *authServiceImpl) Login(
 
 // Synchronize 同步服务器状态
 func (impl *authServiceImpl) Synchronize(
-	ctx context.Context, req *httpauth.SynchronizeRequest,
+	context.Context, *httpauth.SynchronizeRequest,
 ) (*httpauth.SynchronizeResponse, error) {
 	rsp := &httpauth.SynchronizeResponse{
 		Data: &httpauth.SynchronizeResponse_Data{},

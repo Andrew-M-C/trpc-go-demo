@@ -6,8 +6,8 @@ import (
 	"time"
 
 	"github.com/Andrew-M-C/trpc-go-demo/utils/filter/internal"
+	"github.com/Andrew-M-C/trpc-go-utils/log"
 	"trpc.group/trpc-go/trpc-go/filter"
-	"trpc.group/trpc-go/trpc-go/log"
 	"trpc.group/trpc-go/trpc-go/metrics"
 )
 

@@ -10,7 +10,6 @@ import (
 	"github.com/Andrew-M-C/trpc-go-utils/log"
 	metricslog "github.com/Andrew-M-C/trpc-go-utils/metrics/log"
 	"github.com/Andrew-M-C/trpc-go-utils/recovery"
-	"github.com/Andrew-M-C/trpc-go-utils/tracelog"
 	trpc "trpc.group/trpc-go/trpc-go"
 	"trpc.group/trpc-go/trpc-go/server"
 )
@@ -33,7 +32,7 @@ func main() {
 
 func initalize() *server.Server {
 	errs.RegisterErrToCodeFilter()
-	tracelog.RegisterTraceLogFilter()
+	log.RegisterTraceLogFilter()
 	metricslog.RegisterMetricsMySQL()
 	elapse.RegisterFilter()
 	count.RegisterFilter()

@@ -5,7 +5,7 @@ import (
 
 	"github.com/Andrew-M-C/trpc-go-demo/app/user/entity"
 	"github.com/Andrew-M-C/trpc-go-demo/proto/user"
-	"trpc.group/trpc-go/trpc-go/log"
+	"github.com/Andrew-M-C/trpc-go-utils/log"
 	"trpc.group/trpc-go/trpc-go/server"
 )
 

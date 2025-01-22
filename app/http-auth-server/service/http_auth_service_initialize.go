@@ -3,6 +3,7 @@ package service
 
 import (
 	"github.com/Andrew-M-C/trpc-go-demo/proto/httpauth"
+	"github.com/go-playground/validator/v10"
 	"trpc.group/trpc-go/trpc-go/server"
 )
 
@@ -29,6 +30,9 @@ type authServiceImpl struct {
 }
 
 func newAuthServiceImpl(dep Dependency) (*authServiceImpl, error) {
+	if err := validator.New().Struct(dep); err != nil {
+		return nil, err
+	}
 	impl := &authServiceImpl{
 		dep: dep,
 	}
