@@ -5,6 +5,7 @@
 _err_desc=(
     # 系统通用错误
     '10000 | ParameterWrong | 请求参数错误'
+    '10001 | RPCError | RPC 调用错误'
     # 登陆错误
     '10011 | PasswordError | 密码错误 | 密码比对失败'
 )

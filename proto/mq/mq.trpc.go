@@ -42,7 +42,7 @@ func MQService_TestMQAdd_Handler(svr interface{}, ctx context.Context, f server.
 
 // MQServer_ServiceDesc descriptor for server.RegisterService.
 var MQServer_ServiceDesc = server.ServiceDesc{
-	ServiceName: "demo.mq.MQ",
+	ServiceName: "trpc.demo.mq.MQ",
 	HandlerType: ((*MQService)(nil)),
 	Methods: []server.Method{
 		{
@@ -50,7 +50,7 @@ var MQServer_ServiceDesc = server.ServiceDesc{
 			Func: MQService_TestMQAdd_Handler,
 		},
 		{
-			Name: "/demo.mq.MQ/TestMQAdd",
+			Name: "/trpc.demo.mq.MQ/TestMQAdd",
 			Func: MQService_TestMQAdd_Handler,
 		},
 	},
@@ -96,8 +96,8 @@ func (c *MQClientProxyImpl) TestMQAdd(ctx context.Context, req *TestMQAddRequest
 	defer codec.PutBackMessage(msg)
 	msg.WithClientRPCName("/demo/mq/add")
 	msg.WithCalleeServiceName(MQServer_ServiceDesc.ServiceName)
-	msg.WithCalleeApp("")
-	msg.WithCalleeServer("")
+	msg.WithCalleeApp("demo")
+	msg.WithCalleeServer("mq")
 	msg.WithCalleeService("MQ")
 	msg.WithCalleeMethod("TestMQAdd")
 	msg.WithSerializationType(codec.SerializationTypePB)

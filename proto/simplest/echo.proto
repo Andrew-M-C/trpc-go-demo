@@ -1,5 +1,5 @@
 syntax = "proto3";
-package demo.simplest;
+package trpc.demo.simplest;
 
 option go_package = "github.com/Andrew-M-C/trpc-go-demo/proto/simplest";
 

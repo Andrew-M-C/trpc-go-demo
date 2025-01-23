@@ -43,7 +43,7 @@ func HelloWorldService_Hello_Handler(svr interface{}, ctx context.Context, f ser
 
 // HelloWorldServer_ServiceDesc descriptor for server.RegisterService.
 var HelloWorldServer_ServiceDesc = server.ServiceDesc{
-	ServiceName: "demo.simplest.HelloWorld",
+	ServiceName: "trpc.demo.simplest.HelloWorld",
 	HandlerType: ((*HelloWorldService)(nil)),
 	Methods: []server.Method{
 		{
@@ -51,7 +51,7 @@ var HelloWorldServer_ServiceDesc = server.ServiceDesc{
 			Func: HelloWorldService_Hello_Handler,
 		},
 		{
-			Name: "/demo.simplest.HelloWorld/Hello",
+			Name: "/trpc.demo.simplest.HelloWorld/Hello",
 			Func: HelloWorldService_Hello_Handler,
 		},
 	},
@@ -99,8 +99,8 @@ func (c *HelloWorldClientProxyImpl) Hello(ctx context.Context, req *HelloRequest
 	defer codec.PutBackMessage(msg)
 	msg.WithClientRPCName("/demo/Hello")
 	msg.WithCalleeServiceName(HelloWorldServer_ServiceDesc.ServiceName)
-	msg.WithCalleeApp("")
-	msg.WithCalleeServer("")
+	msg.WithCalleeApp("demo")
+	msg.WithCalleeServer("simplest")
 	msg.WithCalleeService("HelloWorld")
 	msg.WithCalleeMethod("Hello")
 	msg.WithSerializationType(codec.SerializationTypePB)

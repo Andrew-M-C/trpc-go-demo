@@ -62,7 +62,7 @@ func AuthService_Synchronize_Handler(svr interface{}, ctx context.Context, f ser
 
 // AuthServer_ServiceDesc descriptor for server.RegisterService.
 var AuthServer_ServiceDesc = server.ServiceDesc{
-	ServiceName: "demo.httpauth.Auth",
+	ServiceName: "trpc.demo.httpauth.Auth",
 	HandlerType: ((*AuthService)(nil)),
 	Methods: []server.Method{
 		{
@@ -74,11 +74,11 @@ var AuthServer_ServiceDesc = server.ServiceDesc{
 			Func: AuthService_Synchronize_Handler,
 		},
 		{
-			Name: "/demo.httpauth.Auth/Login",
+			Name: "/trpc.demo.httpauth.Auth/Login",
 			Func: AuthService_Login_Handler,
 		},
 		{
-			Name: "/demo.httpauth.Auth/Synchronize",
+			Name: "/trpc.demo.httpauth.Auth/Synchronize",
 			Func: AuthService_Synchronize_Handler,
 		},
 	},
@@ -129,8 +129,8 @@ func (c *AuthClientProxyImpl) Login(ctx context.Context, req *LoginRequest, opts
 	defer codec.PutBackMessage(msg)
 	msg.WithClientRPCName("/demo/auth/Login")
 	msg.WithCalleeServiceName(AuthServer_ServiceDesc.ServiceName)
-	msg.WithCalleeApp("")
-	msg.WithCalleeServer("")
+	msg.WithCalleeApp("demo")
+	msg.WithCalleeServer("httpauth")
 	msg.WithCalleeService("Auth")
 	msg.WithCalleeMethod("Login")
 	msg.WithSerializationType(codec.SerializationTypePB)
@@ -149,8 +149,8 @@ func (c *AuthClientProxyImpl) Synchronize(ctx context.Context, req *SynchronizeR
 	defer codec.PutBackMessage(msg)
 	msg.WithClientRPCName("/demo/auth/Synchronize")
 	msg.WithCalleeServiceName(AuthServer_ServiceDesc.ServiceName)
-	msg.WithCalleeApp("")
-	msg.WithCalleeServer("")
+	msg.WithCalleeApp("demo")
+	msg.WithCalleeServer("httpauth")
 	msg.WithCalleeService("Auth")
 	msg.WithCalleeMethod("Synchronize")
 	msg.WithSerializationType(codec.SerializationTypePB)

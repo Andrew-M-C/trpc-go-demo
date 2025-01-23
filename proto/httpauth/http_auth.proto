@@ -1,5 +1,5 @@
 syntax = "proto3";
-package demo.httpauth;
+package trpc.demo.httpauth;
 
 option go_package = "github.com/Andrew-M-C/trpc-go-demo/proto/httpauth";
 
@@ -32,8 +32,8 @@ message SynchronizeResponse {
 
     message Data {
         int64  ts_msec  = 1; // 毫秒级时间戳
-        string timezone = 2; // 时区
-        string env      = 3; // 环境
+        string desc     = 2; // 时间可视化描述
+        string timezone = 3; // 时区
     }
 }
 

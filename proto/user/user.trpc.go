@@ -42,11 +42,11 @@ func UserService_GetAccountByUserName_Handler(svr interface{}, ctx context.Conte
 
 // UserServer_ServiceDesc descriptor for server.RegisterService.
 var UserServer_ServiceDesc = server.ServiceDesc{
-	ServiceName: "demo.account.User",
+	ServiceName: "trpc.demo.account.User",
 	HandlerType: ((*UserService)(nil)),
 	Methods: []server.Method{
 		{
-			Name: "/demo.account.User/GetAccountByUserName",
+			Name: "/trpc.demo.account.User/GetAccountByUserName",
 			Func: UserService_GetAccountByUserName_Handler,
 		},
 	},
@@ -90,10 +90,10 @@ var NewUserClientProxy = func(opts ...client.Option) UserClientProxy {
 func (c *UserClientProxyImpl) GetAccountByUserName(ctx context.Context, req *GetAccountByUserNameRequest, opts ...client.Option) (*GetAccountByUserNameResponse, error) {
 	ctx, msg := codec.WithCloneMessage(ctx)
 	defer codec.PutBackMessage(msg)
-	msg.WithClientRPCName("/demo.account.User/GetAccountByUserName")
+	msg.WithClientRPCName("/trpc.demo.account.User/GetAccountByUserName")
 	msg.WithCalleeServiceName(UserServer_ServiceDesc.ServiceName)
-	msg.WithCalleeApp("")
-	msg.WithCalleeServer("")
+	msg.WithCalleeApp("demo")
+	msg.WithCalleeServer("account")
 	msg.WithCalleeService("User")
 	msg.WithCalleeMethod("GetAccountByUserName")
 	msg.WithSerializationType(codec.SerializationTypePB)

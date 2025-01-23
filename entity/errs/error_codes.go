@@ -7,6 +7,8 @@ import "trpc.group/trpc-go/trpc-go/errs"
 const (
 	// ParameterWrongCode 错误代码: 请求参数错误
 	ParameterWrongCode = 10000
+	// RPCErrorCode 错误代码: RPC 调用错误
+	RPCErrorCode = 10001
 	// PasswordErrorCode 错误代码: 密码比对失败
 	PasswordErrorCode = 10011
 )
@@ -14,6 +16,8 @@ const (
 var (
 	// ParameterWrong 请求参数错误
 	ParameterWrong = errs.New(ParameterWrongCode, "请求参数错误")
+	// RPCError RPC 调用错误
+	RPCError = errs.New(RPCErrorCode, "RPC 调用错误")
 	// PasswordError 密码比对失败
 	PasswordError = errs.New(PasswordErrorCode, "密码比对失败")
 )

@@ -1,5 +1,5 @@
 syntax = "proto3";
-package demo.account;
+package trpc.demo.account;
 
 option go_package = "github.com/Andrew-M-C/trpc-go-demo/proto/user";
 
