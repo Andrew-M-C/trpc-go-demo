@@ -25,10 +25,10 @@ func (impl *authServiceImpl) Login(
 	}
 	uRsp, err := impl.UserProxy.GetAccountByUserName(ctx, uReq)
 	if err != nil {
-		return nil, fmt.Errorf("%w: %v", errs.RPCError, err)
+		return nil, fmt.Errorf("调用 user 服务失败 (%w)", err)
 	}
 
-	if req.GetPasswordHash() != uRsp.GetPasswordHash() {
+	if req.GetPasswordHash() != uRsp.GetData().GetPasswordHash() {
 		return nil, errs.PasswordError
 	}
 	return &httpauth.LoginResponse{}, nil

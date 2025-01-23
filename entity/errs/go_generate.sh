@@ -6,8 +6,10 @@ _err_desc=(
     # 系统通用错误
     '10000 | ParameterWrong | 请求参数错误'
     '10001 | RPCError | RPC 调用错误'
+    '10002 | DBError | 数据库操作失败'
     # 登陆错误
     '10011 | PasswordError | 密码错误 | 密码比对失败'
+    '10012 | UserNotExist | 用户不存在'
 )
 
 _curr_to_file="error_codes.go"
@@ -37,6 +39,7 @@ toFile ""
 # 首先解析出参数
 _err_codes=()
 _err_consts=()
+_err_msgs=()
 _err_comments=()
 
 _old_ifs="${IFS}"
@@ -44,9 +47,11 @@ IFS="|"
 for i in "${!_err_desc[@]}"; do
     item=${_err_desc[${i}]}
     arr=(${item})
+    echo ${i} - ${arr[0]} - ${arr[1]} - ${arr[2]} - ${arr[3]}
     
     strip ${arr[0]}; code=${ret}
     strip ${arr[1]}; const=${ret}
+    strip ${arr[2]}; msg=${ret}
     strip ${arr[2]}; comment=${ret}
 
     if [ ! -z "${arr[3]}" ]; then
@@ -55,6 +60,7 @@ for i in "${!_err_desc[@]}"; do
 
     _err_codes[${i}]=${code}
     _err_consts[${i}]=${const}
+    _err_msgs[${i}]=${msg}
     _err_comments[${i}]=${comment}
 done
 IFS="${_old_ifs}"
@@ -76,11 +82,11 @@ toFile "var ("
 for i in "${!_err_codes[@]}"; do
     const=${_err_consts[${i}]}
     comment=${_err_comments[${i}]}
+    msg=${_err_msgs[${i}]}
 
     toFile "\t// ${const} ${comment}"
-    toFile "\t${const} = errs.New(${const}Code, \"${comment}\")"
+    toFile "\t${const} = errs.New(${const}Code, \"${msg}\")"
 done
 toFile ")"
 
 go fmt error_codes.go
-

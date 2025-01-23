@@ -2,17 +2,18 @@ package service
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/Andrew-M-C/trpc-go-demo/app/user/entity"
-	"github.com/Andrew-M-C/trpc-go-demo/proto/user"
-	"github.com/Andrew-M-C/trpc-go-utils/log"
+	"github.com/Andrew-M-C/trpc-go-demo/entity/errs"
+	pb "github.com/Andrew-M-C/trpc-go-demo/proto/user"
 	"trpc.group/trpc-go/trpc-go/server"
 )
 
 // RegisterUserService 注册用户服务
 func RegisterUserService(s server.Service, d Dependency) error {
 	impl := &userImpl{dep: d}
-	user.RegisterUserService(s, impl)
+	pb.RegisterUserService(s, impl)
 	return nil
 }
 
@@ -28,27 +29,20 @@ type userImpl struct {
 
 // GetAccountByUserName 根据用户名获取帐户信息
 func (impl *userImpl) GetAccountByUserName(
-	ctx context.Context, req *user.GetAccountByUserNameRequest,
-) (rsp *user.GetAccountByUserNameResponse, _ error) {
-	rsp = &user.GetAccountByUserNameResponse{}
-
+	ctx context.Context, req *pb.GetAccountByUserNameRequest,
+) (rsp *pb.GetAccountByUserNameResponse, _ error) {
 	u, err := impl.dep.QueryAccountByUsername(ctx, req.Username)
 	if err != nil {
-		log.ErrorContextf(ctx, "查询 username '%s' 失败: %v", req.Username, err)
-		rsp.ErrCode = -1 // TODO: 采用规范的错误码定义
-		rsp.ErrMsg = err.Error()
-		return
+		return nil, fmt.Errorf("%w: %v", errs.DBError, err)
 	}
 	if u == nil {
-		log.InfoContextf(ctx, "username '%s' 不存在", req.Username)
-		rsp.ErrCode = 404
-		rsp.ErrMsg = "用户不存在"
-		return
+		return nil, errs.UserNotExist
 	}
 
-	rsp.UserId = u.ID
-	rsp.Username = u.Username
-	rsp.PasswordHash = u.PasswordHash
+	rsp = &pb.GetAccountByUserNameResponse{Data: &pb.GetAccountByUserNameResponse_Data{}}
+	rsp.Data.UserId = u.ID
+	rsp.Data.Username = u.Username
+	rsp.Data.PasswordHash = u.PasswordHash
 	rsp.ErrMsg = "success"
 	return
 }

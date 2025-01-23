@@ -3,8 +3,9 @@ package service
 
 import (
 	"context"
+	"time"
 
-	"github.com/Andrew-M-C/trpc-go-demo/proto/user"
+	pb "github.com/Andrew-M-C/trpc-go-demo/proto/user"
 	"github.com/Andrew-M-C/trpc-go-utils/errs"
 	"trpc.group/trpc-go/trpc-go/server"
 )
@@ -16,7 +17,7 @@ var (
 // RegisterUserService 注册用户服务
 func RegisterUserService(s server.Service) error {
 	impl := &userImpl{}
-	user.RegisterUserService(s, impl)
+	pb.RegisterUserService(s, impl)
 	return nil
 }
 
@@ -24,7 +25,22 @@ type userImpl struct{}
 
 // GetAccountByUserName 根据用户名获取帐户信息
 func (impl *userImpl) GetAccountByUserName(
-	context.Context, *user.GetAccountByUserNameRequest,
-) (*user.GetAccountByUserNameResponse, error) {
-	return nil, errServerIsNotReal
+	_ context.Context, req *pb.GetAccountByUserNameRequest,
+) (*pb.GetAccountByUserNameResponse, error) {
+	const testUser = "amc"
+
+	if req.GetUsername() != testUser {
+		return nil, errServerIsNotReal
+	}
+
+	// 调试代码
+	rsp := &pb.GetAccountByUserNameResponse{
+		Data: &pb.GetAccountByUserNameResponse_Data{
+			UserId:       "dummy_id",
+			Username:     testUser,
+			PasswordHash: "123456",
+			CreateTsSec:  time.Time{}.Unix(),
+		},
+	}
+	return rsp, nil
 }

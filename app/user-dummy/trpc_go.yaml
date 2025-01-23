@@ -1,0 +1,22 @@
+server:
+  filter:
+    - tracelog
+    - err_to_code
+  service:
+    - name: demo.account.User
+      ip: 127.0.0.1
+      # nic: eth0
+      port: 8003
+      network: tcp
+      protocol: trpc
+      timeout: 1800
+
+plugins:
+  log:
+    default:
+      - writer: console
+        level: debug
+        formatter: console
+      - writer: file
+        level: fatal
+        formatter: console

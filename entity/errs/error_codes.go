@@ -9,8 +9,12 @@ const (
 	ParameterWrongCode = 10000
 	// RPCErrorCode 错误代码: RPC 调用错误
 	RPCErrorCode = 10001
+	// DBErrorCode 错误代码: 数据库操作失败
+	DBErrorCode = 10002
 	// PasswordErrorCode 错误代码: 密码比对失败
 	PasswordErrorCode = 10011
+	// UserNotExistCode 错误代码: 用户不存在
+	UserNotExistCode = 10012
 )
 
 var (
@@ -18,6 +22,10 @@ var (
 	ParameterWrong = errs.New(ParameterWrongCode, "请求参数错误")
 	// RPCError RPC 调用错误
 	RPCError = errs.New(RPCErrorCode, "RPC 调用错误")
+	// DBError 数据库操作失败
+	DBError = errs.New(DBErrorCode, "数据库操作失败")
 	// PasswordError 密码比对失败
-	PasswordError = errs.New(PasswordErrorCode, "密码比对失败")
+	PasswordError = errs.New(PasswordErrorCode, "密码错误")
+	// UserNotExist 用户不存在
+	UserNotExist = errs.New(UserNotExistCode, "用户不存在")
 )

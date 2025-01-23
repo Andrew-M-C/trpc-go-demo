@@ -101,7 +101,7 @@ else
 endif
 
 .PHONY: gogenerate
-gogenerate: installmock $(GO_GENERATE_DIRS)
+gogenerate: $(GO_GENERATE_DIRS)
 	@go mod tidy
 
 .PHONY: installmock
