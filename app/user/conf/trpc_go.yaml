@@ -1,6 +1,10 @@
 server:
   filter:
+    - elapse
+    - count
     - tracelog
+    - err_to_code
+
   service:
     - name: demo.account.User
       # ip: 127.0.0.1
@@ -15,18 +19,9 @@ plugins:
     default:
       - writer: console
         level: debug
-        formatter: console
       - writer: file
         level: debug
-        formatter: json
-        formatter_config:
-          time_fmt: 2006-01-02 15:04:05
-          time_key: time
-          level_key: level
-          name_key: none
-          caller_key: caller
-          message_key: message
-          stacktrace_key: stack_trace
+        formatter: console
         writer_config:
           log_path: ./log/
           filename: trpc.log
@@ -35,20 +30,20 @@ plugins:
           max_size: 1000
           max_backups: 10
 
-  registry:
-    polarismesh:
-      register_self: true
-      heartbeat_interval: 1000
-      protocol: grpc
-      address_list: host.docker.internal:8091
-      service:
-        - name: demo.account.User
-          namespace: dev
-          # bind_address: host.docker.internal:8002
-          # prefer_bind_address: true
-          # bind_address: $BIND_ADDRESS
-          weight: 100
-          token: not_needed
+  # registry:
+  #   polarismesh:
+  #     register_self: true
+  #     heartbeat_interval: 1000
+  #     protocol: grpc
+  #     address_list: host.docker.internal:8091
+  #     service:
+  #       - name: demo.account.User
+  #         namespace: dev
+  #         # bind_address: host.docker.internal:8002
+  #         # prefer_bind_address: true
+  #         # bind_address: $BIND_ADDRESS
+  #         weight: 100
+  #         token: not_needed
 
   config:
     etcd:
@@ -58,8 +53,11 @@ plugins:
         - host.docker.internal:23379
       dialtimeout: 5s
 
-    client_yaml:
-      key: /user/client.yaml
+  database:
+    mysql:
+      max_idle: 20 # 最大空闲连接数
+      max_open: 100 # 最大在线连接数
+      max_lifetime: 180000 # 连接最大生命周期 (单位：毫秒)
 
 # client:
 #   filter:

@@ -1,5 +1,6 @@
+
 CREATE TABLE IF NOT EXISTS `t_trpc_demo_user_account` (
-    `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键 ID',
+    `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键 ID',
     `username` varchar(128) NOT NULL COMMENT '用户名称',
     `password_hash` varchar(64) NOT NULL COMMENT '用户密码哈希值',
     `create_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',

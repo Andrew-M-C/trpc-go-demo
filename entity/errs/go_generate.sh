@@ -5,8 +5,9 @@
 _err_desc=(
     # 系统通用错误
     '10000 | ParameterWrong | 请求参数错误'
-    '10001 | RPCError | RPC 调用错误'
-    '10002 | DBError | 数据库操作失败'
+    '10001 | InternalError | 服务内部异常'
+    '10002 | RPCError | RPC 调用错误'
+    '10003 | DBError | 数据库操作失败'
     # 登陆错误
     '10011 | PasswordError | 密码错误 | 密码比对失败'
     '10012 | UserNotExist | 用户不存在'

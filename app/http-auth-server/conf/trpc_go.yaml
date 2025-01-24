@@ -5,6 +5,7 @@ server:
     - tracelog
     - err_to_code
   timeout: 2000
+
   service:
     - name: trpc.demo.httpauth.Auth
       # ip: 127.0.0.1

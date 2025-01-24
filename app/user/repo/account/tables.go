@@ -1,25 +1,21 @@
 package account
 
 import (
-	"strconv"
-
+	"github.com/Andrew-M-C/go.util/ids/base36"
 	"github.com/Andrew-M-C/trpc-go-demo/app/user/entity"
 )
 
-type userAccountItem struct {
-	ID           int64  `db:"id"            gorm:"column:id"`
-	Username     string `db:"username"      gorm:"column:username"`
-	PasswordHash string `db:"password_hash" gorm:"column:password_hash"`
-}
+const userAccountTableName = "t_trpc_demo_user_account"
 
-// TableName 返回表名
-func (userAccountItem) TableName() string {
-	return "t_trpc_demo_user_account"
+type userAccountItem struct {
+	ID           uint32 `db:"id"`
+	Username     string `db:"username"`
+	PasswordHash string `db:"password_hash"`
 }
 
 func (u userAccountItem) toEntity() *entity.Account {
 	return &entity.Account{
-		ID:           strconv.FormatInt(u.ID, 36),
+		ID:           base36.QuirkyItoa32(u.ID),
 		Username:     u.Username,
 		PasswordHash: u.PasswordHash,
 	}

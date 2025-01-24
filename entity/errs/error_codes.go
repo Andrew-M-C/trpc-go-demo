@@ -7,10 +7,12 @@ import "trpc.group/trpc-go/trpc-go/errs"
 const (
 	// ParameterWrongCode 错误代码: 请求参数错误
 	ParameterWrongCode = 10000
+	// InternalErrorCode 错误代码: 服务内部异常
+	InternalErrorCode = 10001
 	// RPCErrorCode 错误代码: RPC 调用错误
-	RPCErrorCode = 10001
+	RPCErrorCode = 10002
 	// DBErrorCode 错误代码: 数据库操作失败
-	DBErrorCode = 10002
+	DBErrorCode = 10003
 	// PasswordErrorCode 错误代码: 密码比对失败
 	PasswordErrorCode = 10011
 	// UserNotExistCode 错误代码: 用户不存在
@@ -20,6 +22,8 @@ const (
 var (
 	// ParameterWrong 请求参数错误
 	ParameterWrong = errs.New(ParameterWrongCode, "请求参数错误")
+	// InternalError 服务内部异常
+	InternalError = errs.New(InternalErrorCode, "服务内部异常")
 	// RPCError RPC 调用错误
 	RPCError = errs.New(RPCErrorCode, "RPC 调用错误")
 	// DBError 数据库操作失败

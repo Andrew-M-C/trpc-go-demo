@@ -2,54 +2,55 @@ package account
 
 import (
 	"context"
-	"errors"
 	"fmt"
 
 	"github.com/Andrew-M-C/trpc-go-demo/app/user/entity"
-	"gorm.io/gorm"
+	"github.com/Andrew-M-C/trpc-go-demo/entity/errs"
+	"github.com/go-playground/validator/v10"
 	"trpc.group/trpc-go/trpc-database/mysql"
 )
 
-// UserAccountRepository 用户账户仓库
-type UserAccountRepository struct {
-	dep Dependency
+// Repo 用户账户仓库
+type Repo struct {
+	Dependency
 }
 
 // Dependency 表示用户账户仓库初始化依赖
 type Dependency struct {
-	DBGetter   func(context.Context) (mysql.Client, error)
-	GormGetter func(context.Context) (*gorm.DB, error)
+	DBGetter func(context.Context) (mysql.Client, error) `validate:"required"`
 }
 
-// InitializeUserAccountRepository 初始化用户账户仓库
-func (r *UserAccountRepository) InitializeUserAccountRepository(d Dependency) error {
-	r.dep = d
-	return nil
+// New 新建帐户仓库
+func New(d Dependency) (*Repo, error) {
+	if err := validator.New().Struct(d); err != nil {
+		return nil, err
+	}
+	r := &Repo{
+		Dependency: d,
+	}
+	return r, nil
+}
+
+func (r *Repo) getDB(ctx context.Context) (mysql.Client, error) {
+	c, err := r.DBGetter(ctx)
+	if err != nil {
+		return nil, fmt.Errorf("%w: %v", errs.InternalError, err)
+	}
+	return c, nil
 }
 
 // QueryAccountByUsername 根据用户名查询用户账户
-func (r *UserAccountRepository) QueryAccountByUsername(
+func (r *Repo) QueryAccountByUsername(
 	ctx context.Context, username string,
 ) (*entity.Account, error) {
-	if r.dep.DBGetter != nil {
-		return r.queryAccountByUsernameBySqlx(ctx, username)
-	} else if r.dep.GormGetter != nil {
-		return r.queryAccountByUsernameByGorm(ctx, username)
-	}
-
-	return nil, errors.New("实例未被正确初始化")
-}
-
-func (r *UserAccountRepository) queryAccountByUsernameBySqlx(
-	ctx context.Context, username string,
-) (*entity.Account, error) {
-	db, err := r.dep.DBGetter(ctx)
+	db, err := r.getDB(ctx)
 	if err != nil {
-		return nil, fmt.Errorf("获取 DB 失败 (%w)", err)
+		return nil, err
 	}
-
 	var res []userAccountItem
-	query := fmt.Sprintf("SELECT * FROM %s WHERE username = ? AND delete_at_ms = 0 LIMIT 1", userAccountItem{}.TableName())
+	const query = "SELECT id, username, password_hash FROM " +
+		userAccountTableName +
+		" WHERE username = ? AND delete_at_ms = 0 LIMIT 1"
 	if err := db.Select(ctx, &res, query, username); err != nil {
 		return nil, fmt.Errorf("查询DB失败 (%w)", err)
 	}
@@ -57,30 +58,4 @@ func (r *UserAccountRepository) queryAccountByUsernameBySqlx(
 		return nil, nil // 使用双 nil 表示数据不存在
 	}
 	return res[0].toEntity(), nil
-}
-
-func (r *UserAccountRepository) queryAccountByUsernameByGorm(
-	ctx context.Context, username string,
-) (*entity.Account, error) {
-	db, err := r.dep.GormGetter(ctx)
-	if err != nil {
-		return nil, fmt.Errorf("获取 DB 失败 (%w)", err)
-	}
-	db = db.Session(&gorm.Session{
-		SkipDefaultTransaction: true,
-	})
-
-	var res userAccountItem
-	err = db.Model(userAccountItem{}).
-		Where("username = ?", username).
-		Where("delete_at_ms = ?", 0).
-		First(&res).Error
-	if err != nil {
-		if errors.Is(err, gorm.ErrRecordNotFound) {
-			return nil, nil // 使用双 nil 表示数据不存在
-		}
-		return nil, fmt.Errorf("查询DB失败 (%w)", err)
-	}
-
-	return res.toEntity(), nil
 }
