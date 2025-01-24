@@ -10,11 +10,15 @@ import (
 	"context"
 	"fmt"
 	"github.com/Andrew-M-C/go.util/runtime/caller"
-	"github.com/Andrew-M-C/trpc-go-demo/app/http-auth-server/service"
+	service2 "github.com/Andrew-M-C/trpc-go-demo/app/http-auth-server/service"
+	"github.com/Andrew-M-C/trpc-go-demo/app/user/repo"
+	"github.com/Andrew-M-C/trpc-go-demo/app/user/repo/account"
+	"github.com/Andrew-M-C/trpc-go-demo/app/user/service"
 	"github.com/Andrew-M-C/trpc-go-demo/proto/httpauth"
 	"github.com/Andrew-M-C/trpc-go-demo/proto/user"
 	"github.com/Andrew-M-C/trpc-go-demo/utils/filter/count"
 	"github.com/Andrew-M-C/trpc-go-demo/utils/filter/elapse"
+	"github.com/Andrew-M-C/trpc-go-utils/client/sqlx"
 	"github.com/Andrew-M-C/trpc-go-utils/codec"
 	"github.com/Andrew-M-C/trpc-go-utils/config/etcd"
 	"github.com/Andrew-M-C/trpc-go-utils/errs"
@@ -38,11 +42,19 @@ func newApplication() (application, error) {
 	if err != nil {
 		return nil, err
 	}
-	userClientProxy := provideUserClient()
-	mainApplication, err := provideHTTPAuthService(server, userClientProxy)
+	accountRepo, err := provideAccountRepo()
 	if err != nil {
 		return nil, err
 	}
+	userService, err := provideUserService(accountRepo)
+	if err != nil {
+		return nil, err
+	}
+	authService, err := provideAuthService(userService)
+	if err != nil {
+		return nil, err
+	}
+	mainApplication := provideApplication(server, authService)
 	return mainApplication, nil
 }
 
@@ -77,28 +89,44 @@ func provideTRPCService() (s *server.Server, err error) {
 }
 
 var repoSet = wire.NewSet(
-	provideUserClient,
+	provideAccountRepo,
 )
 
-func provideUserClient() user.UserClientProxy {
-	return user.NewUserClientProxy()
+func provideAccountRepo() (repo.AccountRepo, error) {
+	d := account.Dependency{
+		DBGetter: sqlx.ClientGetter("mysql.demo.user.account"),
+	}
+	return account.New(d)
 }
 
 var serviceSet = wire.NewSet(
-	provideHTTPAuthService,
+	provideUserService,
+	provideAuthService,
+	provideApplication,
 )
 
-func provideHTTPAuthService(
-	svr *server.Server,
-	userProxy user.UserClientProxy,
-) (application, error) {
+func provideUserService(
+	accountRepo repo.AccountRepo,
+) (user.UserService, error) {
 	d := service.Dependency{
-		UserProxy: userProxy,
+		AccountRepo: accountRepo,
 	}
-	authSvc, err := service.New(d)
-	if err != nil {
-		return nil, err
+	return service.New(d)
+}
+
+func provideAuthService(
+	userService user.UserService,
+) (httpauth.AuthService, error) {
+	d := service2.Dependency{
+		UserProxy: wrappedUserClient{userService},
 	}
-	httpauth.RegisterAuthService(svr, authSvc)
-	return svr, nil
+	return service2.New(d)
+}
+
+func provideApplication(
+	svc *server.Server,
+	authSvc httpauth.AuthService,
+) application {
+	httpauth.RegisterAuthService(svc, authSvc)
+	return svc
 }

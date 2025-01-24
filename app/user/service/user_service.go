@@ -8,22 +8,18 @@ import (
 	"github.com/Andrew-M-C/trpc-go-demo/entity/errs"
 	pb "github.com/Andrew-M-C/trpc-go-demo/proto/user"
 	"github.com/go-playground/validator/v10"
-	"trpc.group/trpc-go/trpc-go/server"
 )
 
-// RegisterService 注册用户服务
-func RegisterService(d Dependency) error {
+func New(d Dependency) (pb.UserService, error) {
 	if err := validator.New().Struct(d); err != nil {
-		return err
+		return nil, err
 	}
 	impl := &impl{Dependency: d}
-	pb.RegisterUserService(d.Service, impl)
-	return nil
+	return impl, nil
 }
 
 // Dependency 表示用户服务初始化依赖
 type Dependency struct {
-	Service     server.Service   `validate:"required"`
 	AccountRepo repo.AccountRepo `validate:"required"`
 }
 

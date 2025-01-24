@@ -8,11 +8,15 @@ import (
 	"fmt"
 
 	"github.com/Andrew-M-C/go.util/runtime/caller"
-	"github.com/Andrew-M-C/trpc-go-demo/app/http-auth-server/service"
+	authservice "github.com/Andrew-M-C/trpc-go-demo/app/http-auth-server/service"
+	"github.com/Andrew-M-C/trpc-go-demo/app/user/repo"
+	"github.com/Andrew-M-C/trpc-go-demo/app/user/repo/account"
+	userservice "github.com/Andrew-M-C/trpc-go-demo/app/user/service"
 	"github.com/Andrew-M-C/trpc-go-demo/proto/httpauth"
 	"github.com/Andrew-M-C/trpc-go-demo/proto/user"
 	"github.com/Andrew-M-C/trpc-go-demo/utils/filter/count"
 	"github.com/Andrew-M-C/trpc-go-demo/utils/filter/elapse"
+	"github.com/Andrew-M-C/trpc-go-utils/client/sqlx"
 	"github.com/Andrew-M-C/trpc-go-utils/codec"
 	"github.com/Andrew-M-C/trpc-go-utils/config/etcd"
 	"github.com/Andrew-M-C/trpc-go-utils/errs"
@@ -75,31 +79,47 @@ func provideTRPCService() (s *server.Server, err error) {
 // MARK: repo 初始化
 
 var repoSet = wire.NewSet(
-	provideUserClient,
+	provideAccountRepo,
 )
 
-func provideUserClient() user.UserClientProxy {
-	return user.NewUserClientProxy()
+func provideAccountRepo() (repo.AccountRepo, error) {
+	d := account.Dependency{
+		DBGetter: sqlx.ClientGetter("mysql.demo.user.account"),
+	}
+	return account.New(d)
 }
 
 // ----------------
 // MARK: service 初始化
 
 var serviceSet = wire.NewSet(
-	provideHTTPAuthService,
+	provideUserService,
+	provideAuthService,
+	provideApplication,
 )
 
-func provideHTTPAuthService(
-	svr *server.Server,
-	userProxy user.UserClientProxy,
-) (application, error) {
-	d := service.Dependency{
-		UserProxy: userProxy,
+func provideUserService(
+	accountRepo repo.AccountRepo,
+) (user.UserService, error) {
+	d := userservice.Dependency{
+		AccountRepo: accountRepo,
 	}
-	authSvc, err := service.New(d)
-	if err != nil {
-		return nil, err
+	return userservice.New(d)
+}
+
+func provideAuthService(
+	userService user.UserService,
+) (httpauth.AuthService, error) {
+	d := authservice.Dependency{
+		UserProxy: wrappedUserClient{userService},
 	}
-	httpauth.RegisterAuthService(svr, authSvc)
-	return svr, nil
+	return authservice.New(d)
+}
+
+func provideApplication(
+	svc *server.Server,
+	authSvc httpauth.AuthService,
+) application {
+	httpauth.RegisterAuthService(svc, authSvc)
+	return svc
 }

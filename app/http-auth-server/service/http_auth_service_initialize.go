@@ -8,21 +8,17 @@ import (
 	"github.com/Andrew-M-C/trpc-go-demo/proto/httpauth"
 	"github.com/Andrew-M-C/trpc-go-demo/proto/user"
 	"github.com/go-playground/validator/v10"
-	"trpc.group/trpc-go/trpc-go/server"
 )
 
-// RegisterAuthService 注册 HTTP 认证服务
-func RegisterAuthService(dep Dependency) error {
-	impl, err := newAuthServiceImpl(dep)
+func New(d Dependency) (httpauth.AuthService, error) {
+	impl, err := newAuthServiceImpl(d)
 	if err != nil {
-		return err
+		return nil, err
 	}
-	httpauth.RegisterAuthService(dep.Service, impl)
-	return nil
+	return impl, nil
 }
 
 type Dependency struct {
-	Service   server.Service       `validate:"required"`
 	UserProxy user.UserClientProxy `validate:"required"`
 }
 

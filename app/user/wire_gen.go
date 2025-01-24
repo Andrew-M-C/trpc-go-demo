@@ -13,6 +13,7 @@ import (
 	"github.com/Andrew-M-C/trpc-go-demo/app/user/repo"
 	"github.com/Andrew-M-C/trpc-go-demo/app/user/repo/account"
 	"github.com/Andrew-M-C/trpc-go-demo/app/user/service"
+	"github.com/Andrew-M-C/trpc-go-demo/proto/user"
 	"github.com/Andrew-M-C/trpc-go-demo/utils/filter/count"
 	"github.com/Andrew-M-C/trpc-go-demo/utils/filter/elapse"
 	"github.com/Andrew-M-C/trpc-go-utils/client/sqlx"
@@ -100,11 +101,12 @@ func provideUserService(
 	accountRepo repo.AccountRepo,
 ) (application, error) {
 	d := service.Dependency{
-		Service:     svr,
 		AccountRepo: accountRepo,
 	}
-	if err := service.RegisterService(d); err != nil {
+	userSvc, err := service.New(d)
+	if err != nil {
 		return nil, err
 	}
+	user.RegisterUserService(svr, userSvc)
 	return svr, nil
 }
