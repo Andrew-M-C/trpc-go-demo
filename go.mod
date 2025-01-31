@@ -8,6 +8,7 @@ require (
 	github.com/Andrew-M-C/go.jsonvalue v1.4.1
 	github.com/Andrew-M-C/go.util/ids v0.0.0-20250116061329-8e3db2afac06
 	github.com/Andrew-M-C/go.util/runtime v0.0.0-20250116061329-8e3db2afac06
+	github.com/Andrew-M-C/trpc-go-demo/proto v0.0.0-20250131152558-dcc59917839d
 	github.com/Andrew-M-C/trpc-go-utils/client/kafka v0.0.0-20250121140935-ca9919c1ec4b
 	github.com/Andrew-M-C/trpc-go-utils/client/sqlx v0.0.0-20250123080638-cde9a6b5c490
 	github.com/Andrew-M-C/trpc-go-utils/codec v0.0.0-20250121140935-ca9919c1ec4b
@@ -19,9 +20,7 @@ require (
 	github.com/IBM/sarama v1.45.0
 	github.com/go-playground/validator/v10 v10.24.0
 	github.com/google/wire v0.6.0
-	go.uber.org/mock v0.5.0
 	golang.org/x/exp v0.0.0-20250106191152-7588d65b2ba8
-	google.golang.org/protobuf v1.36.3
 	trpc.group/trpc-go/trpc-database/kafka v1.2.0
 	trpc.group/trpc-go/trpc-database/mysql v1.0.0
 	trpc.group/trpc-go/trpc-go v1.0.3
@@ -114,6 +113,7 @@ require (
 	golang.org/x/time v0.3.0 // indirect
 	google.golang.org/genproto v0.0.0-20221014213838-99cd37c6964a // indirect
 	google.golang.org/grpc v1.51.0 // indirect
+	google.golang.org/protobuf v1.36.4 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 	trpc.group/trpc-go/tnet v1.0.1 // indirect

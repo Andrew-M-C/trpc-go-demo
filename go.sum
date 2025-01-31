@@ -185,6 +185,8 @@ github.com/Andrew-M-C/go.util/sync v0.0.0-20250116061329-8e3db2afac06 h1:fXjubad
 github.com/Andrew-M-C/go.util/sync v0.0.0-20250116061329-8e3db2afac06/go.mod h1:1NSK/PwV40XNw+YkLHgQkpHWZQRu6bIBdTPB6wuhWqI=
 github.com/Andrew-M-C/go.util/unsafe v0.0.0-20250116061329-8e3db2afac06 h1:iikOmz0hMsl6/7C+yCj9xSHSye4GVZ4i5hb3X309CGM=
 github.com/Andrew-M-C/go.util/unsafe v0.0.0-20250116061329-8e3db2afac06/go.mod h1:cN+VilNtYInWPXfTf2YiBKndjbZ1oP1AMLRDNHgI7Vg=
+github.com/Andrew-M-C/trpc-go-demo/proto v0.0.0-20250131152558-dcc59917839d h1:13Reoz1nM5DZJrgSfcgMQJRv7nksP1tEAnI06qQUQpQ=
+github.com/Andrew-M-C/trpc-go-demo/proto v0.0.0-20250131152558-dcc59917839d/go.mod h1:+kEUmEAJTbP0z8HQAG3i+EqJ/sDTpsMwpxGdIDtcJ8I=
 github.com/Andrew-M-C/trpc-go-utils/client/kafka v0.0.0-20250121140935-ca9919c1ec4b h1:GytJ0e5F1DjUFX9RmRY9EgD5hcifiWJwuoQUxyTnnLI=
 github.com/Andrew-M-C/trpc-go-utils/client/kafka v0.0.0-20250121140935-ca9919c1ec4b/go.mod h1:u34QWM8UHJNHoCIMFRaa6W3xKGCvvELw7udyReaojwQ=
 github.com/Andrew-M-C/trpc-go-utils/client/sqlx v0.0.0-20250123080638-cde9a6b5c490 h1:otcMH21UuY0PcIlC1Rvz5TKvWGmaafNp3UuMVlNvj7g=
@@ -625,8 +627,6 @@ go.uber.org/automaxprocs v1.5.3/go.mod h1:eRbA25aqJrxAbsLO0xy5jVwPt7FQnRgjW+efnw
 go.uber.org/goleak v1.1.11/go.mod h1:cwTWslyiVhfpKIDGSZEM2HlOvcqm+tG4zioyIeLoqMQ=
 go.uber.org/goleak v1.3.0 h1:2K3zAYmnTNqV73imy9J1T3WC+gmCePx2hEGkimedGto=
 go.uber.org/goleak v1.3.0/go.mod h1:CoHD4mav9JJNrW/WLlf7HGZPjdw8EucARQHekz1X6bE=
-go.uber.org/mock v0.5.0 h1:KAMbZvZPyBPWgD14IrIQ38QCyjwpvVVV6K/bHl1IwQU=
-go.uber.org/mock v0.5.0/go.mod h1:ge71pBPLYDk7QIi1LupWxdAykm7KIEFchiOqd6z7qMM=
 go.uber.org/multierr v1.6.0/go.mod h1:cdWPpRnG4AhwMwsgIHip0KRBQjJy5kYEpYjJxpXp9iU=
 go.uber.org/multierr v1.11.0 h1:blXXJkSxSSfBVBlC76pxqeO+LN3aDfLQo+309xJstO0=
 go.uber.org/multierr v1.11.0/go.mod h1:20+QtiLqy0Nd6FdQB9TLXag12DsQkrbs3htMFfDN80Y=
@@ -1162,8 +1162,8 @@ google.golang.org/protobuf v1.27.1/go.mod h1:9q0QmTI4eRPtz6boOQmLYwt+qCgq0jsYwAQ
 google.golang.org/protobuf v1.28.0/go.mod h1:HV8QOd/L58Z+nl8r43ehVNZIU/HEI6OcFqwMG9pJV4I=
 google.golang.org/protobuf v1.28.1/go.mod h1:HV8QOd/L58Z+nl8r43ehVNZIU/HEI6OcFqwMG9pJV4I=
 google.golang.org/protobuf v1.30.0/go.mod h1:HV8QOd/L58Z+nl8r43ehVNZIU/HEI6OcFqwMG9pJV4I=
-google.golang.org/protobuf v1.36.3 h1:82DV7MYdb8anAVi3qge1wSnMDrnKK7ebr+I0hHRN1BU=
-google.golang.org/protobuf v1.36.3/go.mod h1:9fA7Ob0pmnwhb644+1+CVWFRbNajQ6iRojtC/QF5bRE=
+google.golang.org/protobuf v1.36.4 h1:6A3ZDJHn/eNqc1i+IdefRzy/9PokBTPvcqMySR7NNIM=
+google.golang.org/protobuf v1.36.4/go.mod h1:9fA7Ob0pmnwhb644+1+CVWFRbNajQ6iRojtC/QF5bRE=
 gopkg.in/alecthomas/kingpin.v2 v2.2.6/go.mod h1:FMv+mEhP44yOT+4EoQTLFTRgOQ1FBLkstjWtayDeSgw=
 gopkg.in/check.v1 v0.0.0-20161208181325-20d25e280405/go.mod h1:Co6ibVJAznAaIkqp8huTwlJQCZ016jof/cbN4VW5Yz0=
 gopkg.in/check.v1 v1.0.0-20180628173108-788fd7840127/go.mod h1:Co6ibVJAznAaIkqp8huTwlJQCZ016jof/cbN4VW5Yz0=
