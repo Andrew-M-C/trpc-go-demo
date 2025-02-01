@@ -22,6 +22,8 @@ type AuthService interface {
 	Login(ctx context.Context, req *LoginRequest) (*LoginResponse, error) // @alias=/demo/auth/Login
 
 	Synchronize(ctx context.Context, req *SynchronizeRequest) (*SynchronizeResponse, error) // @alias=/demo/auth/Synchronize
+
+	UserSpace(ctx context.Context, req *UserSpaceRequest) (*UserSpaceResponse, error) // @alias=/demo/auth/UserSpace
 }
 
 func AuthService_Login_Handler(svr interface{}, ctx context.Context, f server.FilterFunc) (interface{}, error) {
@@ -60,6 +62,24 @@ func AuthService_Synchronize_Handler(svr interface{}, ctx context.Context, f ser
 	return rsp, nil
 }
 
+func AuthService_UserSpace_Handler(svr interface{}, ctx context.Context, f server.FilterFunc) (interface{}, error) {
+	req := &UserSpaceRequest{}
+	filters, err := f(req)
+	if err != nil {
+		return nil, err
+	}
+	handleFunc := func(ctx context.Context, reqbody interface{}) (interface{}, error) {
+		return svr.(AuthService).UserSpace(ctx, reqbody.(*UserSpaceRequest))
+	}
+
+	var rsp interface{}
+	rsp, err = filters.Filter(ctx, req, handleFunc)
+	if err != nil {
+		return nil, err
+	}
+	return rsp, nil
+}
+
 // AuthServer_ServiceDesc descriptor for server.RegisterService.
 var AuthServer_ServiceDesc = server.ServiceDesc{
 	ServiceName: "trpc.demo.httpauth.Auth",
@@ -74,12 +94,20 @@ var AuthServer_ServiceDesc = server.ServiceDesc{
 			Func: AuthService_Synchronize_Handler,
 		},
 		{
+			Name: "/demo/auth/UserSpace",
+			Func: AuthService_UserSpace_Handler,
+		},
+		{
 			Name: "/trpc.demo.httpauth.Auth/Login",
 			Func: AuthService_Login_Handler,
 		},
 		{
 			Name: "/trpc.demo.httpauth.Auth/Synchronize",
 			Func: AuthService_Synchronize_Handler,
+		},
+		{
+			Name: "/trpc.demo.httpauth.Auth/UserSpace",
+			Func: AuthService_UserSpace_Handler,
 		},
 	},
 }
@@ -101,6 +129,9 @@ func (s *UnimplementedAuth) Login(ctx context.Context, req *LoginRequest) (*Logi
 func (s *UnimplementedAuth) Synchronize(ctx context.Context, req *SynchronizeRequest) (*SynchronizeResponse, error) {
 	return nil, errors.New("rpc Synchronize of service Auth is not implemented")
 }
+func (s *UnimplementedAuth) UserSpace(ctx context.Context, req *UserSpaceRequest) (*UserSpaceResponse, error) {
+	return nil, errors.New("rpc UserSpace of service Auth is not implemented")
+}
 
 // END --------------------------------- Default Unimplemented Server Service --------------------------------- END
 
@@ -113,6 +144,8 @@ type AuthClientProxy interface {
 	Login(ctx context.Context, req *LoginRequest, opts ...client.Option) (rsp *LoginResponse, err error) // @alias=/demo/auth/Login
 
 	Synchronize(ctx context.Context, req *SynchronizeRequest, opts ...client.Option) (rsp *SynchronizeResponse, err error) // @alias=/demo/auth/Synchronize
+
+	UserSpace(ctx context.Context, req *UserSpaceRequest, opts ...client.Option) (rsp *UserSpaceResponse, err error) // @alias=/demo/auth/UserSpace
 }
 
 type AuthClientProxyImpl struct {
@@ -158,6 +191,26 @@ func (c *AuthClientProxyImpl) Synchronize(ctx context.Context, req *SynchronizeR
 	callopts = append(callopts, c.opts...)
 	callopts = append(callopts, opts...)
 	rsp := &SynchronizeResponse{}
+	if err := c.client.Invoke(ctx, req, rsp, callopts...); err != nil {
+		return nil, err
+	}
+	return rsp, nil
+}
+
+func (c *AuthClientProxyImpl) UserSpace(ctx context.Context, req *UserSpaceRequest, opts ...client.Option) (*UserSpaceResponse, error) {
+	ctx, msg := codec.WithCloneMessage(ctx)
+	defer codec.PutBackMessage(msg)
+	msg.WithClientRPCName("/demo/auth/UserSpace")
+	msg.WithCalleeServiceName(AuthServer_ServiceDesc.ServiceName)
+	msg.WithCalleeApp("demo")
+	msg.WithCalleeServer("httpauth")
+	msg.WithCalleeService("Auth")
+	msg.WithCalleeMethod("UserSpace")
+	msg.WithSerializationType(codec.SerializationTypePB)
+	callopts := make([]client.Option, 0, len(c.opts)+len(opts))
+	callopts = append(callopts, c.opts...)
+	callopts = append(callopts, opts...)
+	rsp := &UserSpaceResponse{}
 	if err := c.client.Invoke(ctx, req, rsp, callopts...); err != nil {
 		return nil, err
 	}

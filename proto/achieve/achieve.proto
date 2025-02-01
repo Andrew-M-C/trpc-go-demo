@@ -1,0 +1,56 @@
+syntax = "proto3";
+package trpc.demo.achieve;
+
+option go_package = "github.com/Andrew-M-C/trpc-go-demo/proto/achieve";
+
+import "common/metadata.proto";
+
+// Achievement 表示成就体系服务
+service Achievement {
+    rpc GetUserReputation(GetUserReputationRequest) returns (GetUserReputationResponse);
+    rpc GetUserBadges(GetUserBadgesRequest) returns (GetUserBadgesResponse);
+}
+
+message GetUserReputationRequest {
+    common.Metadata metadata = 1;
+    string user_id = 2;
+}
+
+message GetUserReputationResponse {
+    int32  err_code = 1;
+    string err_msg  = 2;
+    Data   data     = 3;
+
+    message Data {
+        Reputation reputation = 1;
+    }
+}
+
+message Reputation {
+    uint32 exp_points = 1; // 经验积分
+    uint32 rank       = 2; // 等级
+    string rank_name  = 3; // 等级描述
+}
+
+message GetUserBadgesRequest {
+    common.Metadata metadata = 1;
+    string user_id = 2;
+}
+
+message GetUserBadgesResponse {
+    int32  err_code = 1;
+    string err_msg  = 2;
+    Data   data     = 3;
+
+    message Data {
+        repeated Badge badges = 1;
+    }
+}
+
+message Badge {
+    string name  = 1; // 徽章名称
+    uint32 count = 2; // 徽章个数
+    int64  first_acquire_ts_sec = 3; // 首次获得时间
+}
+
+

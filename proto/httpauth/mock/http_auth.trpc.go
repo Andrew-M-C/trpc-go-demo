@@ -72,6 +72,21 @@ func (mr *MockAuthServiceMockRecorder) Synchronize(ctx, req any) *gomock.Call {
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Synchronize", reflect.TypeOf((*MockAuthService)(nil).Synchronize), ctx, req)
 }
 
+// UserSpace mocks base method.
+func (m *MockAuthService) UserSpace(ctx context.Context, req *httpauth.UserSpaceRequest) (*httpauth.UserSpaceResponse, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "UserSpace", ctx, req)
+	ret0, _ := ret[0].(*httpauth.UserSpaceResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// UserSpace indicates an expected call of UserSpace.
+func (mr *MockAuthServiceMockRecorder) UserSpace(ctx, req any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UserSpace", reflect.TypeOf((*MockAuthService)(nil).UserSpace), ctx, req)
+}
+
 // MockAuthClientProxy is a mock of AuthClientProxy interface.
 type MockAuthClientProxy struct {
 	ctrl     *gomock.Controller
@@ -134,4 +149,24 @@ func (mr *MockAuthClientProxyMockRecorder) Synchronize(ctx, req any, opts ...any
 	mr.mock.ctrl.T.Helper()
 	varargs := append([]any{ctx, req}, opts...)
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Synchronize", reflect.TypeOf((*MockAuthClientProxy)(nil).Synchronize), varargs...)
+}
+
+// UserSpace mocks base method.
+func (m *MockAuthClientProxy) UserSpace(ctx context.Context, req *httpauth.UserSpaceRequest, opts ...client.Option) (*httpauth.UserSpaceResponse, error) {
+	m.ctrl.T.Helper()
+	varargs := []any{ctx, req}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "UserSpace", varargs...)
+	ret0, _ := ret[0].(*httpauth.UserSpaceResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// UserSpace indicates an expected call of UserSpace.
+func (mr *MockAuthClientProxyMockRecorder) UserSpace(ctx, req any, opts ...any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]any{ctx, req}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UserSpace", reflect.TypeOf((*MockAuthClientProxy)(nil).UserSpace), varargs...)
 }

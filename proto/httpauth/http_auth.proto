@@ -4,6 +4,14 @@ package trpc.demo.httpauth;
 option go_package = "github.com/Andrew-M-C/trpc-go-demo/proto/httpauth";
 
 import "common/metadata.proto";
+import "achieve/achieve.proto";
+
+// Auth 提供 HTTP 认证接口
+service Auth {
+    rpc Login(LoginRequest) returns (LoginResponse); // @alias=/demo/auth/Login
+    rpc Synchronize(SynchronizeRequest) returns (SynchronizeResponse); // @alias=/demo/auth/Synchronize
+    rpc UserSpace(UserSpaceRequest) returns (UserSpaceResponse); // @alias=/demo/auth/UserSpace
+}
 
 message LoginRequest {
     common.Metadata metadata = 1;
@@ -37,18 +45,26 @@ message SynchronizeResponse {
     }
 }
 
-message TestKafkaAddRequest {
+message UserSpaceRequest {
     common.Metadata metadata = 1;
-    int32 count = 2;
+    string username = 2;
 }
 
-message TestKafkaAddResponse {
+message UserSpaceResponse {
     int32  err_code = 1;
     string err_msg  = 2;
-}
+    Data   data     = 3;
 
-// Auth 提供 HTTP 认证接口
-service Auth {
-    rpc Login(LoginRequest) returns (LoginResponse); // @alias=/demo/auth/Login
-    rpc Synchronize(SynchronizeRequest) returns (SynchronizeResponse); // @alias=/demo/auth/Synchronize
+    message Data {
+        UserInfo user_info = 1;
+        achieve.Reputation reputation = 2;
+        repeated achieve.Badge badges = 3;
+    }
+
+    message UserInfo {
+        string user_id  = 1;
+        string username = 2;
+        string nickname = 3;
+        int64  create_ts_sec = 4;
+    }
 }
