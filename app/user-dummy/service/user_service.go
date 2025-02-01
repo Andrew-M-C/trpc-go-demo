@@ -36,10 +36,13 @@ func (impl *userImpl) GetAccountByUserName(
 	// 调试代码
 	rsp := &pb.GetAccountByUserNameResponse{
 		Data: &pb.GetAccountByUserNameResponse_Data{
-			UserId:       "dummy_id",
-			Username:     testUser,
-			PasswordHash: "123456",
-			CreateTsSec:  time.Time{}.Unix(),
+			UserInfo: &pb.UserInfo{
+				UserId:       "dummy_id",
+				Username:     testUser,
+				PasswordHash: "123456",
+				Nickname:     "dummy_nickname",
+				CreateTsSec:  time.Time{}.Unix(),
+			},
 		},
 	}
 	return rsp, nil

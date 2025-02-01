@@ -7,8 +7,9 @@ toolchain go1.23.1
 require (
 	github.com/Andrew-M-C/go.jsonvalue v1.4.1
 	github.com/Andrew-M-C/go.util/ids v0.0.0-20250116061329-8e3db2afac06
+	github.com/Andrew-M-C/go.util/mysql v0.0.0-20250116061329-8e3db2afac06
 	github.com/Andrew-M-C/go.util/runtime v0.0.0-20250116061329-8e3db2afac06
-	github.com/Andrew-M-C/trpc-go-demo/proto v0.0.0-20250131152558-dcc59917839d
+	github.com/Andrew-M-C/trpc-go-demo/proto v0.0.0-20250201030114-e93c7d4fddc6
 	github.com/Andrew-M-C/trpc-go-utils/client/kafka v0.0.0-20250121140935-ca9919c1ec4b
 	github.com/Andrew-M-C/trpc-go-utils/client/sqlx v0.0.0-20250123080638-cde9a6b5c490
 	github.com/Andrew-M-C/trpc-go-utils/codec v0.0.0-20250121140935-ca9919c1ec4b

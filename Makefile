@@ -23,7 +23,6 @@ $(SERVERS):
 
 .PHONY: all
 all: pb wire gogenerate $(SERVERS)
-	go mod tidy
 
 .PHONY: fmt
 fmt:
@@ -52,7 +51,6 @@ install: installpb installtrpc installmock installwire
 # pb 编译规则
 .PHONY: pb
 pb: $(PB_DIR_TGTS)
-	go mod tidy
 
 # 寻找包含 .proto 的目录并编译
 .PHONY: $(PB_DIR_TGTS)
@@ -67,6 +65,7 @@ $(PB_DIR_TGTS):
 		ls *.trpc.go | xargs -I DD mockgen -source=DD -destination=mock/DD -package=mock ; \
 		find `pwd` -name '*.pb.go'; \
 		find `pwd` -name '*.pb.go' | xargs -I XXXX sed -i 's/err_code,omitempty/err_code/g' XXXX; \
+		go mod tidy; \
 	done
 
 _PROTOC_PKG_URL=https://github.com/protocolbuffers/protobuf/releases/download/v$(PB_VERSION)/protoc-$(PB_VERSION)-linux-x86_64.zip

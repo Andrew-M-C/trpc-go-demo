@@ -28,7 +28,7 @@ func (impl *authServiceImpl) Login(
 		return nil, fmt.Errorf("调用 user 服务失败 (%w)", err)
 	}
 
-	if req.GetPasswordHash() != uRsp.GetData().GetPasswordHash() {
+	if req.GetPasswordHash() != uRsp.GetData().GetUserInfo().GetPasswordHash() {
 		return nil, errs.PasswordError
 	}
 	return &httpauth.LoginResponse{}, nil

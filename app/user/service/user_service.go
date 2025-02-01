@@ -40,10 +40,9 @@ func (impl *impl) GetAccountByUserName(
 	}
 
 	rsp := &pb.GetAccountByUserNameResponse{
-		Data: &pb.GetAccountByUserNameResponse_Data{},
+		Data: &pb.GetAccountByUserNameResponse_Data{
+			UserInfo: u,
+		},
 	}
-	rsp.Data.UserId = u.ID
-	rsp.Data.Username = u.Username
-	rsp.Data.PasswordHash = u.PasswordHash
 	return rsp, nil
 }
