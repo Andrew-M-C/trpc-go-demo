@@ -10,12 +10,14 @@ import (
 	"context"
 	"fmt"
 	"github.com/Andrew-M-C/go.util/runtime/caller"
-	"github.com/Andrew-M-C/trpc-go-demo/app/http-auth-server/service"
+	"github.com/Andrew-M-C/trpc-go-demo/app/achievement/repo"
+	"github.com/Andrew-M-C/trpc-go-demo/app/achievement/repo/badge"
+	"github.com/Andrew-M-C/trpc-go-demo/app/achievement/repo/reputation"
+	"github.com/Andrew-M-C/trpc-go-demo/app/achievement/service"
 	"github.com/Andrew-M-C/trpc-go-demo/proto/achieve"
-	"github.com/Andrew-M-C/trpc-go-demo/proto/httpauth"
-	"github.com/Andrew-M-C/trpc-go-demo/proto/user"
 	"github.com/Andrew-M-C/trpc-go-demo/utils/filter/count"
 	"github.com/Andrew-M-C/trpc-go-demo/utils/filter/elapse"
+	"github.com/Andrew-M-C/trpc-go-utils/client/sqlx"
 	"github.com/Andrew-M-C/trpc-go-utils/codec"
 	"github.com/Andrew-M-C/trpc-go-utils/config/etcd"
 	"github.com/Andrew-M-C/trpc-go-utils/errs"
@@ -39,9 +41,15 @@ func newApplication() (application, error) {
 	if err != nil {
 		return nil, err
 	}
-	userClientProxy := provideUserClient()
-	achievementClientProxy := provideAchieveClient()
-	mainApplication, err := provideHTTPAuthService(server, userClientProxy, achievementClientProxy)
+	badge, err := provideBadgeRepo()
+	if err != nil {
+		return nil, err
+	}
+	reputation, err := provideReputationRepo()
+	if err != nil {
+		return nil, err
+	}
+	mainApplication, err := provideAchievementService(server, badge, reputation)
 	if err != nil {
 		return nil, err
 	}
@@ -79,35 +87,41 @@ func provideTRPCService() (s *server.Server, err error) {
 }
 
 var repoSet = wire.NewSet(
-	provideUserClient,
-	provideAchieveClient,
+	provideBadgeRepo,
+	provideReputationRepo,
 )
 
-func provideUserClient() user.UserClientProxy {
-	return user.NewUserClientProxy()
+func provideBadgeRepo() (repo.Badge, error) {
+	d := badge.Dependency{
+		DBGetter: sqlx.ClientGetter("mysql.demo.achievement.badge"),
+	}
+	return badge.New(d)
 }
 
-func provideAchieveClient() achieve.AchievementClientProxy {
-	return achieve.NewAchievementClientProxy()
+func provideReputationRepo() (repo.Reputation, error) {
+	d := reputation.Dependency{
+		DBGetter: sqlx.ClientGetter("mysql.demo.achievement.reputation"),
+	}
+	return reputation.New(d)
 }
 
 var serviceSet = wire.NewSet(
-	provideHTTPAuthService,
+	provideAchievementService,
 )
 
-func provideHTTPAuthService(
+func provideAchievementService(
 	svr *server.Server,
-	userProxy user.UserClientProxy,
-	achieveProxy achieve.AchievementClientProxy,
+	badgeRepo repo.Badge,
+	reputationRepo repo.Reputation,
 ) (application, error) {
 	d := service.Dependency{
-		UserProxy:        userProxy,
-		AchievementProxy: achieveProxy,
+		BadgeRepo:      badgeRepo,
+		ReputationRepo: reputationRepo,
 	}
-	authSvc, err := service.New(d)
+	svcImpl, err := service.New(d)
 	if err != nil {
 		return nil, err
 	}
-	httpauth.RegisterAuthService(svr, authSvc)
+	achieve.RegisterAchievementService(svr, svcImpl)
 	return svr, nil
 }

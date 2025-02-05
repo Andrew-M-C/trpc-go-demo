@@ -8,8 +8,8 @@ server:
 
   service:
     - name: trpc.demo.httpauth.Auth
-      # ip: 127.0.0.1
-      nic: eth0
+      ip: 0.0.0.0
+      # nic: eth0
       port: 8001
       network: tcp
       protocol: http
@@ -67,7 +67,7 @@ plugins:
   config:
     etcd:
       endpoints:
-        - host.docker.internal:21379
-        - host.docker.internal:22379
-        - host.docker.internal:23379
+        - 127.0.0.1:21379
+        - 127.0.0.1:22379
+        - 127.0.0.1:23379
       dialtimeout: 5s

@@ -69,7 +69,7 @@ func (r *Repo) QueryAccountByUsername(
 		return nil, err
 	}
 	var res []userAccountItem
-	const query = "SELECT id, username, password_hash, nickname FROM " +
+	const query = "SELECT * FROM " +
 		userAccountTableName +
 		" WHERE username = ? AND delete_at_ms = 0 LIMIT 1"
 	if err := db.Select(ctx, &res, query, username); err != nil {

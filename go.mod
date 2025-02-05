@@ -9,19 +9,20 @@ require (
 	github.com/Andrew-M-C/go.util/ids v0.0.0-20250116061329-8e3db2afac06
 	github.com/Andrew-M-C/go.util/mysql v0.0.0-20250116061329-8e3db2afac06
 	github.com/Andrew-M-C/go.util/runtime v0.0.0-20250116061329-8e3db2afac06
-	github.com/Andrew-M-C/trpc-go-demo/proto v0.0.0-20250201030114-e93c7d4fddc6
+	github.com/Andrew-M-C/trpc-go-demo/proto v0.0.0-20250201140852-f092a24d0aa7
 	github.com/Andrew-M-C/trpc-go-utils/client/kafka v0.0.0-20250121140935-ca9919c1ec4b
 	github.com/Andrew-M-C/trpc-go-utils/client/sqlx v0.0.0-20250123080638-cde9a6b5c490
 	github.com/Andrew-M-C/trpc-go-utils/codec v0.0.0-20250121140935-ca9919c1ec4b
 	github.com/Andrew-M-C/trpc-go-utils/config/etcd v0.0.0-20250121140935-ca9919c1ec4b
 	github.com/Andrew-M-C/trpc-go-utils/errs v0.0.0-20250123080638-cde9a6b5c490
-	github.com/Andrew-M-C/trpc-go-utils/log v0.0.0-20250123080638-cde9a6b5c490
+	github.com/Andrew-M-C/trpc-go-utils/log v0.0.0-20250205025215-4dee6f71411e
 	github.com/Andrew-M-C/trpc-go-utils/metrics v0.0.0-20250121140935-ca9919c1ec4b
 	github.com/Andrew-M-C/trpc-go-utils/recovery v0.0.0-20250121140935-ca9919c1ec4b
 	github.com/IBM/sarama v1.45.0
 	github.com/go-playground/validator/v10 v10.24.0
 	github.com/google/wire v0.6.0
-	golang.org/x/exp v0.0.0-20250106191152-7588d65b2ba8
+	github.com/samber/lo v1.49.1
+	golang.org/x/exp v0.0.0-20250128182459-e0ece0dbea4c
 	trpc.group/trpc-go/trpc-database/kafka v1.2.0
 	trpc.group/trpc-go/trpc-database/mysql v1.0.0
 	trpc.group/trpc-go/trpc-go v1.0.3
@@ -57,7 +58,7 @@ require (
 	github.com/gogo/protobuf v1.3.2 // indirect
 	github.com/golang/protobuf v1.5.2 // indirect
 	github.com/golang/snappy v0.0.4 // indirect
-	github.com/google/flatbuffers v25.1.21+incompatible // indirect
+	github.com/google/flatbuffers v25.1.24+incompatible // indirect
 	github.com/google/uuid v1.6.0 // indirect
 	github.com/hashicorp/errwrap v1.1.0 // indirect
 	github.com/hashicorp/go-multierror v1.1.1 // indirect
@@ -103,14 +104,14 @@ require (
 	go.etcd.io/etcd/client/v3 v3.5.9 // indirect
 	go.mongodb.org/mongo-driver v1.17.2 // indirect
 	go.uber.org/atomic v1.11.0 // indirect
-	go.uber.org/automaxprocs v1.5.3 // indirect
+	go.uber.org/automaxprocs v1.6.0 // indirect
 	go.uber.org/multierr v1.11.0 // indirect
 	go.uber.org/zap v1.27.0 // indirect
 	golang.org/x/crypto v0.32.0 // indirect
 	golang.org/x/net v0.34.0 // indirect
-	golang.org/x/sync v0.10.0 // indirect
-	golang.org/x/sys v0.29.0 // indirect
-	golang.org/x/text v0.21.0 // indirect
+	golang.org/x/sync v0.11.0 // indirect
+	golang.org/x/sys v0.30.0 // indirect
+	golang.org/x/text v0.22.0 // indirect
 	golang.org/x/time v0.3.0 // indirect
 	google.golang.org/genproto v0.0.0-20221014213838-99cd37c6964a // indirect
 	google.golang.org/grpc v1.51.0 // indirect

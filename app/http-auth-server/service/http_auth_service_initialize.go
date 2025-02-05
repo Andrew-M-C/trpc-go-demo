@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/Andrew-M-C/trpc-go-demo/proto/achieve"
 	"github.com/Andrew-M-C/trpc-go-demo/proto/httpauth"
 	"github.com/Andrew-M-C/trpc-go-demo/proto/user"
 	"github.com/go-playground/validator/v10"
@@ -19,7 +20,8 @@ func New(d Dependency) (httpauth.AuthService, error) {
 }
 
 type Dependency struct {
-	UserProxy user.UserClientProxy `validate:"required"`
+	UserProxy        user.UserClientProxy           `validate:"required"`
+	AchievementProxy achieve.AchievementClientProxy `validate:"required"`
 }
 
 type Repo interface {

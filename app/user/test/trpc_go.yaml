@@ -7,8 +7,8 @@ server:
 
   service:
     - name: demo.account.User
-      # ip: 127.0.0.1
-      nic: eth0
+      ip: 0.0.0.0
+      # nic: eth0
       port: 8002
       network: tcp
       protocol: trpc
@@ -48,9 +48,9 @@ plugins:
   config:
     etcd:
       endpoints:
-        - host.docker.internal:21379
-        - host.docker.internal:22379
-        - host.docker.internal:23379
+        - 127.0.0.1:21379
+        - 127.0.0.1:22379
+        - 127.0.0.1:23379
       dialtimeout: 5s
 
   database:
