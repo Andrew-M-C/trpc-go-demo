@@ -8,10 +8,15 @@ import (
 	"fmt"
 
 	"github.com/Andrew-M-C/go.util/runtime/caller"
+	achrepo "github.com/Andrew-M-C/trpc-go-demo/app/achievement/repo"
+	"github.com/Andrew-M-C/trpc-go-demo/app/achievement/repo/badge"
+	"github.com/Andrew-M-C/trpc-go-demo/app/achievement/repo/reputation"
+	achservice "github.com/Andrew-M-C/trpc-go-demo/app/achievement/service"
 	authservice "github.com/Andrew-M-C/trpc-go-demo/app/http-auth-server/service"
-	"github.com/Andrew-M-C/trpc-go-demo/app/user/repo"
+	userrepo "github.com/Andrew-M-C/trpc-go-demo/app/user/repo"
 	"github.com/Andrew-M-C/trpc-go-demo/app/user/repo/account"
 	userservice "github.com/Andrew-M-C/trpc-go-demo/app/user/service"
+	"github.com/Andrew-M-C/trpc-go-demo/proto/achieve"
 	"github.com/Andrew-M-C/trpc-go-demo/proto/httpauth"
 	"github.com/Andrew-M-C/trpc-go-demo/proto/user"
 	"github.com/Andrew-M-C/trpc-go-demo/utils/filter/count"
@@ -80,26 +85,54 @@ func provideTRPCService() (s *server.Server, err error) {
 
 var repoSet = wire.NewSet(
 	provideAccountRepo,
+	provideBadgeRepo,
+	provideReputationRepo,
 )
 
-func provideAccountRepo() (repo.AccountRepo, error) {
+func provideAccountRepo() (userrepo.AccountRepo, error) {
 	d := account.Dependency{
 		DBGetter: sqlx.ClientGetter("mysql.demo.user.account"),
 	}
 	return account.New(d)
 }
 
+func provideBadgeRepo() (achrepo.Badge, error) {
+	d := badge.Dependency{
+		DBGetter: sqlx.ClientGetter("mysql.demo.achievement.badge"),
+	}
+	return badge.New(d)
+}
+
+func provideReputationRepo() (achrepo.Reputation, error) {
+	d := reputation.Dependency{
+		DBGetter: sqlx.ClientGetter("mysql.demo.achievement.reputation"),
+	}
+	return reputation.New(d)
+}
+
 // ----------------
 // MARK: service 初始化
 
 var serviceSet = wire.NewSet(
+	provideAchieveService,
 	provideUserService,
 	provideAuthService,
 	provideApplication,
 )
 
+func provideAchieveService(
+	badgeRepo achrepo.Badge,
+	reputationRepo achrepo.Reputation,
+) (achieve.AchievementService, error) {
+	d := achservice.Dependency{
+		BadgeRepo:      badgeRepo,
+		ReputationRepo: reputationRepo,
+	}
+	return achservice.New(d)
+}
+
 func provideUserService(
-	accountRepo repo.AccountRepo,
+	accountRepo userrepo.AccountRepo,
 ) (user.UserService, error) {
 	d := userservice.Dependency{
 		AccountRepo: accountRepo,
@@ -109,9 +142,11 @@ func provideUserService(
 
 func provideAuthService(
 	userService user.UserService,
+	achieveService achieve.AchievementService,
 ) (httpauth.AuthService, error) {
 	d := authservice.Dependency{
-		UserProxy: wrappedUserClient{userService},
+		UserProxy:        wrappedUserClient{userService},
+		AchievementProxy: wrappedAchieveClient{achieveService},
 	}
 	return authservice.New(d)
 }

@@ -10,10 +10,15 @@ import (
 	"context"
 	"fmt"
 	"github.com/Andrew-M-C/go.util/runtime/caller"
-	service2 "github.com/Andrew-M-C/trpc-go-demo/app/http-auth-server/service"
+	repo2 "github.com/Andrew-M-C/trpc-go-demo/app/achievement/repo"
+	"github.com/Andrew-M-C/trpc-go-demo/app/achievement/repo/badge"
+	"github.com/Andrew-M-C/trpc-go-demo/app/achievement/repo/reputation"
+	"github.com/Andrew-M-C/trpc-go-demo/app/achievement/service"
+	service3 "github.com/Andrew-M-C/trpc-go-demo/app/http-auth-server/service"
 	"github.com/Andrew-M-C/trpc-go-demo/app/user/repo"
 	"github.com/Andrew-M-C/trpc-go-demo/app/user/repo/account"
-	"github.com/Andrew-M-C/trpc-go-demo/app/user/service"
+	service2 "github.com/Andrew-M-C/trpc-go-demo/app/user/service"
+	"github.com/Andrew-M-C/trpc-go-demo/proto/achieve"
 	"github.com/Andrew-M-C/trpc-go-demo/proto/httpauth"
 	"github.com/Andrew-M-C/trpc-go-demo/proto/user"
 	"github.com/Andrew-M-C/trpc-go-demo/utils/filter/count"
@@ -50,7 +55,19 @@ func newApplication() (application, error) {
 	if err != nil {
 		return nil, err
 	}
-	authService, err := provideAuthService(userService)
+	badge, err := provideBadgeRepo()
+	if err != nil {
+		return nil, err
+	}
+	reputation, err := provideReputationRepo()
+	if err != nil {
+		return nil, err
+	}
+	achievementService, err := provideAchieveService(badge, reputation)
+	if err != nil {
+		return nil, err
+	}
+	authService, err := provideAuthService(userService, achievementService)
 	if err != nil {
 		return nil, err
 	}
@@ -90,6 +107,8 @@ func provideTRPCService() (s *server.Server, err error) {
 
 var repoSet = wire.NewSet(
 	provideAccountRepo,
+	provideBadgeRepo,
+	provideReputationRepo,
 )
 
 func provideAccountRepo() (repo.AccountRepo, error) {
@@ -99,28 +118,56 @@ func provideAccountRepo() (repo.AccountRepo, error) {
 	return account.New(d)
 }
 
+func provideBadgeRepo() (repo2.Badge, error) {
+	d := badge.Dependency{
+		DBGetter: sqlx.ClientGetter("mysql.demo.achievement.badge"),
+	}
+	return badge.New(d)
+}
+
+func provideReputationRepo() (repo2.Reputation, error) {
+	d := reputation.Dependency{
+		DBGetter: sqlx.ClientGetter("mysql.demo.achievement.reputation"),
+	}
+	return reputation.New(d)
+}
+
 var serviceSet = wire.NewSet(
+	provideAchieveService,
 	provideUserService,
 	provideAuthService,
 	provideApplication,
 )
 
-func provideUserService(
-	accountRepo repo.AccountRepo,
-) (user.UserService, error) {
+func provideAchieveService(
+	badgeRepo repo2.Badge,
+	reputationRepo repo2.Reputation,
+) (achieve.AchievementService, error) {
 	d := service.Dependency{
-		AccountRepo: accountRepo,
+		BadgeRepo:      badgeRepo,
+		ReputationRepo: reputationRepo,
 	}
 	return service.New(d)
 }
 
-func provideAuthService(
-	userService user.UserService,
-) (httpauth.AuthService, error) {
+func provideUserService(
+	accountRepo repo.AccountRepo,
+) (user.UserService, error) {
 	d := service2.Dependency{
-		UserProxy: wrappedUserClient{userService},
+		AccountRepo: accountRepo,
 	}
 	return service2.New(d)
+}
+
+func provideAuthService(
+	userService user.UserService,
+	achieveService achieve.AchievementService,
+) (httpauth.AuthService, error) {
+	d := service3.Dependency{
+		UserProxy:        wrappedUserClient{userService},
+		AchievementProxy: wrappedAchieveClient{achieveService},
+	}
+	return service3.New(d)
 }
 
 func provideApplication(

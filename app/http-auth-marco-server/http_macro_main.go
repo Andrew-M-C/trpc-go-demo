@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 
+	"github.com/Andrew-M-C/trpc-go-demo/proto/achieve"
 	"github.com/Andrew-M-C/trpc-go-demo/proto/user"
 	"github.com/Andrew-M-C/trpc-go-utils/log"
 	"github.com/Andrew-M-C/trpc-go-utils/recovery"
@@ -28,6 +29,9 @@ type application interface {
 	Serve() error
 }
 
+// ----------------
+// MARK: user.UserService
+
 type wrappedUserClient struct {
 	svc user.UserService
 }
@@ -38,4 +42,27 @@ func (c wrappedUserClient) GetAccountByUserName(
 ) (*user.GetAccountByUserNameResponse, error) {
 	_ = opts
 	return c.svc.GetAccountByUserName(ctx, req)
+}
+
+// ----------------
+// MARK: achieve.AchievementService
+
+type wrappedAchieveClient struct {
+	svc achieve.AchievementService
+}
+
+func (c wrappedAchieveClient) GetUserReputation(
+	ctx context.Context, req *achieve.GetUserReputationRequest,
+	opts ...client.Option,
+) (*achieve.GetUserReputationResponse, error) {
+	_ = opts
+	return c.svc.GetUserReputation(ctx, req)
+}
+
+func (c wrappedAchieveClient) GetUserBadges(
+	ctx context.Context, req *achieve.GetUserBadgesRequest,
+	opts ...client.Option,
+) (*achieve.GetUserBadgesResponse, error) {
+	_ = opts
+	return c.svc.GetUserBadges(ctx, req)
 }
