@@ -54,7 +54,7 @@ pb: $(PB_DIR_TGTS)
 
 # 寻找包含 .proto 的目录并编译
 .PHONY: $(PB_DIR_TGTS)
-$(PB_DIR_TGTS):
+$(PB_DIR_TGTS): installmock
 	@for dir in $(subst _PB,, $@); do \
 		echo Now Build proto in directory: $$dir; \
 		cd $$dir; rm -rf mock; \
@@ -100,7 +100,7 @@ else
 endif
 
 .PHONY: gogenerate
-gogenerate: $(GO_GENERATE_DIRS)
+gogenerate: installmock $(GO_GENERATE_DIRS)
 	@go mod tidy
 
 .PHONY: installmock
