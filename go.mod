@@ -1,11 +1,13 @@
 module github.com/Andrew-M-C/trpc-go-demo
 
-go 1.22.0
+go 1.23
 
-toolchain go1.23.1
+toolchain go1.23.5
 
 require (
 	github.com/Andrew-M-C/go.jsonvalue v1.4.1
+	github.com/Andrew-M-C/go.util/china v0.0.0-20250416030715-d0a4d915fd36
+	github.com/Andrew-M-C/go.util/encoding v0.0.0-20250416030715-d0a4d915fd36
 	github.com/Andrew-M-C/go.util/ids v0.0.0-20250116061329-8e3db2afac06
 	github.com/Andrew-M-C/go.util/mysql v0.0.0-20250116061329-8e3db2afac06
 	github.com/Andrew-M-C/go.util/runtime v0.0.0-20250116061329-8e3db2afac06
@@ -21,6 +23,7 @@ require (
 	github.com/IBM/sarama v1.45.0
 	github.com/go-playground/validator/v10 v10.24.0
 	github.com/google/wire v0.6.0
+	github.com/mark3labs/mcp-go v0.20.1
 	github.com/samber/lo v1.49.1
 	golang.org/x/exp v0.0.0-20250128182459-e0ece0dbea4c
 	trpc.group/trpc-go/trpc-database/kafka v1.2.0
@@ -32,13 +35,16 @@ require (
 require (
 	github.com/Andrew-M-C/go.objectid v1.0.3 // indirect
 	github.com/Andrew-M-C/go.util/channel v0.0.0-20250116061329-8e3db2afac06 // indirect
+	github.com/Andrew-M-C/go.util/constraints v0.0.0-20250411024944-dc1445c96c13 // indirect
 	github.com/Andrew-M-C/go.util/errors v0.0.0-20250116061329-8e3db2afac06 // indirect
 	github.com/Andrew-M-C/go.util/log v0.0.0-20250116061329-8e3db2afac06 // indirect
-	github.com/Andrew-M-C/go.util/sync v0.0.0-20250116061329-8e3db2afac06 // indirect
+	github.com/Andrew-M-C/go.util/slice v0.0.0-20250411024944-dc1445c96c13 // indirect
+	github.com/Andrew-M-C/go.util/sync v0.0.0-20250411024944-dc1445c96c13 // indirect
 	github.com/Andrew-M-C/go.util/unsafe v0.0.0-20250116061329-8e3db2afac06 // indirect
 	github.com/Andrew-M-C/trpc-go-utils/config v0.0.0-20250121140935-ca9919c1ec4b // indirect
 	github.com/Andrew-M-C/trpc-go-utils/plugin v0.0.0-20250123080638-cde9a6b5c490 // indirect
 	github.com/BurntSushi/toml v1.4.0 // indirect
+	github.com/agnivade/levenshtein v1.2.1 // indirect
 	github.com/andybalholm/brotli v1.1.1 // indirect
 	github.com/beorn7/perks v1.0.1 // indirect
 	github.com/cespare/xxhash/v2 v2.1.2 // indirect
@@ -80,7 +86,7 @@ require (
 	github.com/modern-go/reflect2 v1.0.2 // indirect
 	github.com/natefinch/lumberjack v2.0.0+incompatible // indirect
 	github.com/panjf2000/ants/v2 v2.11.0 // indirect
-	github.com/petermattis/goid v0.0.0-20240813172612-4fcff4a6cae7 // indirect
+	github.com/petermattis/goid v0.0.0-20250319124200-ccd6737f222a // indirect
 	github.com/pierrec/lz4/v4 v4.1.22 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/polarismesh/polaris-go v1.5.5 // indirect
@@ -99,6 +105,7 @@ require (
 	github.com/xdg-go/pbkdf2 v1.0.0 // indirect
 	github.com/xdg-go/scram v1.1.2 // indirect
 	github.com/xdg-go/stringprep v1.0.4 // indirect
+	github.com/yosida95/uritemplate/v3 v3.0.2 // indirect
 	go.etcd.io/etcd/api/v3 v3.5.9 // indirect
 	go.etcd.io/etcd/client/pkg/v3 v3.5.9 // indirect
 	go.etcd.io/etcd/client/v3 v3.5.9 // indirect

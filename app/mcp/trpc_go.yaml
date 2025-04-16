@@ -1,0 +1,15 @@
+server:
+  service:  # 业务服务提供的 service，可以有多个
+    - name: trpc.amc.demo.mcp  # service 的路由名称
+      network: tcp  # 网络监听类型，tcp 或 udp
+      protocol: http_no_protocol  # 应用层协议 http_no_protocol
+      timeout: 31536000000  # 请求最长处理时间，单位毫秒
+      ip: 127.0.0.1
+      port: 8080  # 服务监听端口
+
+plugins:
+  log:
+    default:
+      - writer: console
+        level: debug
+        formatter: console
