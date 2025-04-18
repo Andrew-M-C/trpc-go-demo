@@ -2,6 +2,7 @@ package main
 
 import (
 	"github.com/Andrew-M-C/trpc-go-demo/app/mcp/logic/admindivision"
+	"github.com/Andrew-M-C/trpc-go-demo/app/mcp/logic/datetime"
 	"github.com/Andrew-M-C/trpc-go-utils/log"
 	"github.com/mark3labs/mcp-go/mcp"
 	"github.com/mark3labs/mcp-go/server"
@@ -18,6 +19,7 @@ func main() {
 	)
 
 	addAdminDivisionTool(mcpSvr)
+	addDateTimeTool(mcpSvr)
 	serveHTTP(svc, mcpSvr)
 }
 
@@ -29,6 +31,17 @@ func addAdminDivisionTool(s *server.MCPServer) {
 	options = append(options, h.Parameters()...)
 
 	tool := mcp.NewTool("admin_division_query", options...)
+	s.AddTool(tool, h.HandleMCP)
+}
+
+func addDateTimeTool(s *server.MCPServer) {
+	h := datetime.Handler{}
+	options := []mcp.ToolOption{
+		mcp.WithDescription(h.Description()),
+	}
+	options = append(options, h.Parameters()...)
+
+	tool := mcp.NewTool("datetime_query", options...)
 	s.AddTool(tool, h.HandleMCP)
 }
 

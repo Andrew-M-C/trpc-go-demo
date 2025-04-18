@@ -11,6 +11,7 @@ require (
 	github.com/Andrew-M-C/go.util/ids v0.0.0-20250116061329-8e3db2afac06
 	github.com/Andrew-M-C/go.util/mysql v0.0.0-20250116061329-8e3db2afac06
 	github.com/Andrew-M-C/go.util/runtime v0.0.0-20250116061329-8e3db2afac06
+	github.com/Andrew-M-C/go.util/time v0.0.0-20250416030715-d0a4d915fd36
 	github.com/Andrew-M-C/trpc-go-demo/proto v0.0.0-20250201140852-f092a24d0aa7
 	github.com/Andrew-M-C/trpc-go-utils/client/kafka v0.0.0-20250121140935-ca9919c1ec4b
 	github.com/Andrew-M-C/trpc-go-utils/client/sqlx v0.0.0-20250123080638-cde9a6b5c490

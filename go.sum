@@ -193,6 +193,8 @@ github.com/Andrew-M-C/go.util/slice v0.0.0-20250411024944-dc1445c96c13 h1:ozU+BR
 github.com/Andrew-M-C/go.util/slice v0.0.0-20250411024944-dc1445c96c13/go.mod h1:c/P+jsQi0IXDwngh0D0ddAPZpxGIBL5vVv8dMnUxa5w=
 github.com/Andrew-M-C/go.util/sync v0.0.0-20250411024944-dc1445c96c13 h1:ybSsj3hCVEAtaFe0dQA65mW66vG+d4zMwEe6Dk7VaEU=
 github.com/Andrew-M-C/go.util/sync v0.0.0-20250411024944-dc1445c96c13/go.mod h1:1NSK/PwV40XNw+YkLHgQkpHWZQRu6bIBdTPB6wuhWqI=
+github.com/Andrew-M-C/go.util/time v0.0.0-20250416030715-d0a4d915fd36 h1:Tkj4e8UUuvCnVNVKyxVUnFb1z+T2jPpRZCGG10Mw48w=
+github.com/Andrew-M-C/go.util/time v0.0.0-20250416030715-d0a4d915fd36/go.mod h1:kYQSxjJKbyg4Xz3NieEFCTD4tpZBBbw16xlXEScIBZo=
 github.com/Andrew-M-C/go.util/unsafe v0.0.0-20250116061329-8e3db2afac06 h1:iikOmz0hMsl6/7C+yCj9xSHSye4GVZ4i5hb3X309CGM=
 github.com/Andrew-M-C/go.util/unsafe v0.0.0-20250116061329-8e3db2afac06/go.mod h1:cN+VilNtYInWPXfTf2YiBKndjbZ1oP1AMLRDNHgI7Vg=
 github.com/Andrew-M-C/trpc-go-demo/proto v0.0.0-20250201140852-f092a24d0aa7 h1:6uZ63wCou22h6bvrI3OAV5ZsBiZCCvetE6hG3snl1gA=
