@@ -1,9 +1,11 @@
 package main
 
 import (
+	"bytes"
 	"io"
 	"net/http"
 
+	"github.com/Andrew-M-C/go-bytesize"
 	"trpc.group/trpc-go/trpc-go/log"
 )
 
@@ -12,9 +14,10 @@ type wrappedHTTP struct {
 }
 
 func (wh *wrappedHTTP) ServeHTTP(w http.ResponseWriter, r *http.Request) error {
-	log.Infof("ServeHTTP: %s", r.URL.Path)
+	log.Infof("ServeHTTP: %s", r.URL)
 	log.Infof("ServeHTTP: Method: %s", r.Method)
 	log.Infof("ServeHTTP: Headers: %v", r.Header)
+	log.Infof("ServeHTTP: Content-Length: %v", r.ContentLength)
 
 	// 设置 CORS 头部允许所有来源
 	w.Header().Set("Access-Control-Allow-Origin", "*")
@@ -27,27 +30,17 @@ func (wh *wrappedHTTP) ServeHTTP(w http.ResponseWriter, r *http.Request) error {
 		return nil
 	}
 
-	r.Body = &readerWrapper{r: r.Body}
+	in, _ := io.ReadAll(r.Body)
+	if len(in) > 0 {
+		log.Infof("read %v:\n%s", bytesize.Base10(len(in)), in)
+	} else {
+		log.Info("read nothing")
+	}
+
+	r.Body = io.NopCloser(bytes.NewBuffer(in))
 	writerWrapper := &writerWrapper{w: w}
 	wh.Handler.ServeHTTP(writerWrapper, r)
 	return nil
-}
-
-type readerWrapper struct {
-	r io.ReadCloser
-}
-
-func (r *readerWrapper) Read(p []byte) (int, error) {
-	i, err := r.r.Read(p)
-	if err != nil {
-		return i, err
-	}
-	log.Infof("read: \n%s", p[:i])
-	return i, nil
-}
-
-func (r *readerWrapper) Close() error {
-	return r.r.Close()
 }
 
 // 监控返回值

@@ -5,6 +5,7 @@ go 1.23
 toolchain go1.23.5
 
 require (
+	github.com/Andrew-M-C/go-bytesize v0.0.0-20230105080248-c93b078d58b3
 	github.com/Andrew-M-C/go.jsonvalue v1.4.1
 	github.com/Andrew-M-C/go.util/china v0.0.0-20250416030715-d0a4d915fd36
 	github.com/Andrew-M-C/go.util/encoding v0.0.0-20250416030715-d0a4d915fd36
